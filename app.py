@@ -543,16 +543,7 @@ with st.sidebar:
     st.markdown("### ⚙️ Configuration")
     st.markdown("---")
 
-    # API Key
-    env_key = os.getenv("GEMINI_API_KEY", "")
-    api_key = st.text_input(
-        "🔑 Gemini API Key",
-        value=env_key if env_key and env_key != "your_gemini_api_key_here" else "",
-        type="password",
-        help="Get your free key from https://aistudio.google.com/apikey",
-    )
 
-    st.markdown("---")
     st.markdown("### 📊 Scoring Weights")
     match_weight = st.slider("Match Score Weight", 0.0, 1.0, 0.6, 0.05)
     interest_weight = round(1.0 - match_weight, 2)
@@ -622,8 +613,17 @@ scout_btn = st.button(
 # Pipeline execution
 # ---------------------------------------------------------------------------
 if scout_btn:
+    api_key = ""
+    try:
+        api_key = st.secrets.get("GEMINI_API_KEY", "")
+    except Exception:
+        pass
+        
     if not api_key:
-        st.error("⚠️ Please enter your Gemini API key in the sidebar.")
+        api_key = os.environ.get("GEMINI_API_KEY", "")
+
+    if not api_key:
+        st.error("⚠️ API key not found. Please set GEMINI_API_KEY in Streamlit secrets or environment variables.")
         st.stop()
 
     if not jd_text.strip():
@@ -645,18 +645,13 @@ if scout_btn:
     match_rate_status = st.empty()
 
     def match_cb(done, total, name):
+        match_rate_status.empty()
         match_progress.progress(done / total, text=f"Scoring {name}... ({done}/{total})")
 
     def match_rate_cb(done, total, name):
-        """Visual countdown between API calls to respect Gemini free-tier RPM."""
-        for remaining in range(4, 0, -1):
-            spinner = ["⏳", "⌛"][remaining % 2]
-            match_rate_status.info(
-                f"{spinner} Rate-limit cooldown — **{remaining}s** remaining "
-                f"(scored {done}/{total}: {name})"
-            )
-            time.sleep(1)
-        match_rate_status.empty()
+        """Visual indicator between API calls to respect Gemini free-tier RPM."""
+        st.toast("Cooling down API to respect rate limits...", icon="⏳")
+        match_rate_status.warning(f"⏳ Cooling down API to respect rate limits... (6s pause after {name})")
 
     try:
         scored = score_all_candidates(
@@ -676,18 +671,13 @@ if scout_btn:
     conv_rate_status = st.empty()
 
     def conv_cb(done, total, name):
+        conv_rate_status.empty()
         conv_progress.progress(done / total, text=f"Chatting with {name}... ({done}/{total})")
 
     def conv_rate_cb(done, total, name):
-        """Visual countdown between API calls to respect Gemini free-tier RPM."""
-        for remaining in range(4, 0, -1):
-            spinner = ["⏳", "⌛"][remaining % 2]
-            conv_rate_status.info(
-                f"{spinner} Rate-limit cooldown — **{remaining}s** remaining "
-                f"(simulated {done}/{total}: {name})"
-            )
-            time.sleep(1)
-        conv_rate_status.empty()
+        """Visual indicator between API calls to respect Gemini free-tier RPM."""
+        st.toast("Cooling down API to respect rate limits...", icon="⏳")
+        conv_rate_status.warning(f"⏳ Cooling down API to respect rate limits... (6s pause after {name})")
 
     try:
         with_conversations = simulate_all_conversations(

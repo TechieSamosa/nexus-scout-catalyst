@@ -91,5 +91,5 @@ def score_all_candidates(
         if i < total - 1:
             if rate_limit_callback:
                 rate_limit_callback(i + 1, total, candidate["name"])
-            time.sleep(4)
+            time.sleep(6)
     return results
