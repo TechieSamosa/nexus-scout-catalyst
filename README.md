@@ -10,26 +10,24 @@ Nexus Scout is an agentic workflow that parses Job Descriptions, evaluates candi
 
 ## 🧠 Architecture & Logic
 
-Nexus Scout employs a multi-step agentic pipeline to identify not just the most *qualified* candidates, but those most *likely to accept* an offer.
+Nexus Scout employs a Multi-Agent Architecture (Scout Agent + Negotiator Agent) utilizing Batch Processing to optimize LLM context windows and bypass rate limits.
 
 ```mermaid
 flowchart TD
     A[👤 User Inputs JD] --> B[📝 JD Parser]
-    B -->|Extracts Skills, Role & Exp| C(JD Context)
+    B -->|Extracts Skills & Role| C(JD Context)
     
-    D[(📁 candidates.json)] --> E[🔍 Matcher Agent]
+    D[(📁 candidates.json - 30 Profiles)] --> E[🔍 Scout Agent]
     C --> E
-    E -->|Gemini 2.0 Flash| F[Match Score 0-100 & Explanation]
-    
-    D --> G[💬 Conversation Sim Agent]
-    C --> G
-    G -->|Recruiter vs Candidate Persona| H[Simulated Dialogue]
-    H --> I[Interest Score 0-100 & Summary]
+    E -->|Batch API Call| F[Match Score & Interest Score for ALL 30]
     
     F --> J{🏆 Leaderboard Engine}
-    I --> J
-    J -->|Weighted Formula| K[Final Score & Tier Ranking]
-    K --> L[📊 Streamlit Dashboard]
+    J -->|Weighted Formula| K[Final Score & Top 3 Ranking]
+    
+    K --> G[✍️ Negotiator Agent]
+    C --> G
+    G -->|Batch API Call| H[Personalized 3-Sentence Outreach]
+    H --> L[📊 Streamlit Dashboard]
     
     classDef agent fill:#6366f1,stroke:#312e81,stroke-width:2px,color:#fff
     classDef data fill:#1e293b,stroke:#475569,stroke-width:2px,color:#fff
@@ -37,22 +35,20 @@ flowchart TD
     
     class E,G agent
     class D,C data
-    class F,I,K score
+    class F,K,H score
 ```
 
 ### ⚙️ Scoring Methodology
 
-The final ranking is determined by a weighted combination of two critical factors:
+The final ranking is determined by a weighted combination of two critical factors, all processed efficiently in a single batch to bypass strict free-tier rate limits:
 
 1. **Match Score (60%):** 
-   - **Agent:** `src/matcher.py`
-   - **Logic:** Evaluates technical skills, past experience, and domain knowledge against the parsed JD requirements using Google Gemini 2.0 Flash.
-   - **Output:** A strict 0-100 score and a concise 2-sentence explainability matrix justifying the technical fit.
+   - Evaluates technical skills, past experience, and domain knowledge against the parsed JD requirements using Google Gemini 2.0 Flash.
 
 2. **Interest Score (40%):** 
-   - **Agent:** `src/conversation_sim.py`
-   - **Logic:** Runs a multi-agent simulation where an "AI Recruiter" pitches the role to a "Simulated Candidate" persona (driven by their current job satisfaction, salary expectations, and work mode preferences). 
-   - **Output:** A 4-6 exchange transcript, evaluated for sentiment and alignment, yielding an Interest Score (0-100) and a summary.
+   - An estimate based on the candidate's hidden job satisfaction levels, salary expectations, and work mode preferences.
+
+Once ranked, the **Negotiator Agent** drafts a highly personalized, persuasive outreach message for the Top 3 candidates to ensure maximum conversion.
 
 *Note: The 60/40 weights are dynamically adjustable via the UI sidebar.*
 
@@ -84,23 +80,22 @@ streamlit run app.py
 ## 🛠️ Trade-offs & Tech Stack
 
 - **Stack:** 
-  - **Frontend:** Streamlit (with custom dark-mode CSS)
+  - **Frontend:** Streamlit (with custom dark-mode CSS and Lottie animations)
   - **Logic:** Python 3.10+
   - **LLM Engine:** Google GenAI SDK (Gemini 2.0 Flash - Free Tier)
-- **Trade-off (Data Source):** Chose a static JSON database (`data/candidates.json`) with 10 detailed synthetic profiles instead of live LinkedIn/resume scraping. This ensures deterministic, API-limit-friendly demonstrations of the core agentic logic without risking ban/rate-limits during live hackathon judging.
-- **Trade-off (Rate Limiting):** Implemented a visual 4-second delay between evaluations to gracefully handle the Gemini free-tier RPM (Requests Per Minute) limits without crashing.
+- **Trade-off (Batching vs Loops):** Transitioned from looping individual API calls to a single batch call for all 30 candidates. This completely bypasses the `429 RESOURCE_EXHAUSTED` error on Gemini's free tier by maximizing the context window instead of hitting RPM limits.
+- **Trade-off (Data Source):** Chose a static JSON database (`data/candidates.json`) with 30 detailed synthetic profiles instead of live LinkedIn/resume scraping.
 
 ## 📂 Project Structure
 
 ```text
 ├── app.py                  # Main Streamlit UI and execution flow
 ├── data/
-│   └── candidates.json     # Synthetic candidate database (10 profiles)
+│   └── candidates.json     # Synthetic candidate database (30 profiles)
 ├── src/
 │   ├── jd_parser.py        # Regex/Keyword parser for JD structuring
 │   ├── llm_engine.py       # Gemini API client wrapper & JSON parser
-│   ├── matcher.py          # Match Scoring Agent logic
-│   ├── conversation_sim.py # Multi-agent interest simulation logic
+│   ├── agents.py           # ScoutAgent and NegotiatorAgent logic
 │   └── leaderboard.py      # Final score aggregation & ranking utilities
 ├── .streamlit/
 │   └── config.toml         # Streamlit theming

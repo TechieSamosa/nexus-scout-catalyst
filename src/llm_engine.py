@@ -27,7 +27,7 @@ def call_gemini(
         try:
             config = types.GenerateContentConfig(
                 temperature=0.7,
-                max_output_tokens=2048,
+                max_output_tokens=8192,
             )
             if system_instruction:
                 config.system_instruction = system_instruction

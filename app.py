@@ -10,10 +10,11 @@ import time
 import streamlit as st
 from dotenv import load_dotenv
 
+import requests
+from streamlit_lottie import st_lottie
 from src.jd_parser import parse_jd
 from src.llm_engine import get_client
-from src.matcher import score_all_candidates
-from src.conversation_sim import simulate_all_conversations
+from src.agents import ScoutAgent, NegotiatorAgent
 from src.leaderboard import compute_final_scores, to_dataframe, get_tier
 
 # ---------------------------------------------------------------------------
@@ -401,6 +402,16 @@ def load_candidates():
     with open(data_path, "r", encoding="utf-8") as f:
         return json.load(f)
 
+@st.cache_data
+def load_lottieurl(url: str):
+    try:
+        r = requests.get(url)
+        if r.status_code != 200:
+            return None
+        return r.json()
+    except:
+        return None
+
 
 def get_score_class(score):
     """Return CSS class based on score value."""
@@ -509,31 +520,16 @@ def render_candidate_card(candidate, expanded=False):
             )
             st.markdown(f"**🛠️ Skills:** {skill_tags}")
 
-        # Interest summary
-        st.markdown(f"**💬 Interest Summary:** {candidate.get('interest_summary', 'N/A')}")
-
-        # Conversation transcript
-        conversation = candidate.get("conversation", [])
-        if conversation:
+        # Outreach Message
+        outreach = candidate.get("outreach_message")
+        if outreach:
             st.markdown("---")
-            st.markdown("**🗣️ Recruiter ↔ Candidate Conversation**")
-            for msg in conversation:
-                role = msg.get("role", "unknown")
-                text = msg.get("message", "")
-                if role == "recruiter":
-                    st.markdown(f"""
-                    <div class="chat-bubble chat-recruiter">
-                        <div class="chat-role-label" style="color: #818cf8;">🤖 Recruiter</div>
-                        {text}
-                    </div>
-                    """, unsafe_allow_html=True)
-                else:
-                    st.markdown(f"""
-                    <div class="chat-bubble chat-candidate">
-                        <div class="chat-role-label" style="color: #34d399;">👤 {candidate['name']}</div>
-                        {text}
-                    </div>
-                    """, unsafe_allow_html=True)
+            st.markdown("**✍️ Negotiator Agent Outreach Draft:**")
+            st.markdown(f"""
+            <div style="background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; padding: 1rem; border-radius: 4px;">
+                <i>"{outreach}"</i>
+            </div>
+            """, unsafe_allow_html=True)
 
 
 # ---------------------------------------------------------------------------
@@ -639,66 +635,57 @@ if scout_btn:
         st.error(f"⚠️ Failed to initialize Gemini client: {e}")
         st.stop()
 
-    # --- Step 1: Match Scoring ---
-    st.markdown("### 🔍 Scoring Candidates...")
-    match_progress = st.progress(0, text="Starting match scoring...")
-    match_rate_status = st.empty()
+    # Create Lottie container
+    lottie_container = st.empty()
+    with lottie_container.container():
+        st.markdown("<h3 style='text-align: center; color: #818cf8;'>Initializing Agentic Workflow...</h3>", unsafe_allow_html=True)
+        # Professional radar / AI scanner Lottie
+        lottie_url = "https://assets9.lottiefiles.com/packages/lf20_x62chj8y.json"
+        lottie_json = load_lottieurl(lottie_url)
+        if not lottie_json:
+            # Fallback URL
+            lottie_url = "https://assets2.lottiefiles.com/packages/lf20_cpebq2zi.json"
+            lottie_json = load_lottieurl(lottie_url)
+            
+        if lottie_json:
+            st_lottie(lottie_json, height=300, key="scanning")
+        else:
+            st.info("Scanning candidates in batch mode...")
 
-    def match_cb(done, total, name):
-        match_rate_status.empty()
-        match_progress.progress(done / total, text=f"Scoring {name}... ({done}/{total})")
-
-    def match_rate_cb(done, total, name):
-        """Visual indicator between API calls to respect Gemini free-tier RPM."""
-        st.toast("Cooling down API to respect rate limits...", icon="⏳")
-        match_rate_status.warning(f"⏳ Cooling down API to respect rate limits... (6s pause after {name})")
-
+    # --- Step 1: Scout Agent Batch Evaluation ---
+    st.toast("Scout Agent activated. Batch processing all candidates...", icon="🤖")
+    scout = ScoutAgent(client)
     try:
-        scored = score_all_candidates(
-            client, candidates, jd_text,
-            progress_callback=match_cb, rate_limit_callback=match_rate_cb,
-        )
+        scored = scout.evaluate_batch(jd_text, candidates)
     except Exception as e:
-        st.error(f"⚠️ Match scoring failed: {e}")
+        lottie_container.empty()
+        st.error(f"⚠️ Scout Agent failed: {e}")
         st.stop()
 
-    match_rate_status.empty()
-    match_progress.progress(1.0, text="✅ Match scoring complete!")
-
-    # --- Step 2: Conversation Simulation ---
-    st.markdown("### 💬 Simulating Conversations...")
-    conv_progress = st.progress(0, text="Starting conversation simulation...")
-    conv_rate_status = st.empty()
-
-    def conv_cb(done, total, name):
-        conv_rate_status.empty()
-        conv_progress.progress(done / total, text=f"Chatting with {name}... ({done}/{total})")
-
-    def conv_rate_cb(done, total, name):
-        """Visual indicator between API calls to respect Gemini free-tier RPM."""
-        st.toast("Cooling down API to respect rate limits...", icon="⏳")
-        conv_rate_status.warning(f"⏳ Cooling down API to respect rate limits... (6s pause after {name})")
-
-    try:
-        with_conversations = simulate_all_conversations(
-            client, scored, jd_text,
-            progress_callback=conv_cb, rate_limit_callback=conv_rate_cb,
-        )
-    except Exception as e:
-        st.error(f"⚠️ Conversation simulation failed: {e}")
-        st.stop()
-
-    conv_rate_status.empty()
-    conv_progress.progress(1.0, text="✅ Conversations complete!")
-
-    # --- Step 3: Ranking ---
-    # Update weights from sidebar
+    # --- Step 2: Ranking ---
     from src.leaderboard import MATCH_WEIGHT, INTEREST_WEIGHT
     import src.leaderboard as lb
     lb.MATCH_WEIGHT = match_weight
     lb.INTEREST_WEIGHT = interest_weight
 
-    ranked = compute_final_scores(with_conversations)
+    ranked = compute_final_scores(scored)
+
+    # --- Step 3: Negotiator Agent ---
+    st.toast("Negotiator Agent activated. Drafting personalized outreach...", icon="✍️")
+    top_3 = ranked[:3]
+    negotiator = NegotiatorAgent(client)
+    try:
+        top_3_enriched = negotiator.draft_outreach_batch(jd_text, top_3)
+        # Merge back
+        for i, c in enumerate(top_3_enriched):
+            ranked[i] = c
+    except Exception as e:
+        lottie_container.empty()
+        st.error(f"⚠️ Negotiator Agent failed: {e}")
+        st.stop()
+        
+    lottie_container.empty()
+    st.toast("Agentic Workflow complete!", icon="✅")
     st.session_state["results"] = ranked
 
 # ---------------------------------------------------------------------------
