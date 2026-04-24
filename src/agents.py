@@ -1,23 +1,62 @@
+import os
 import json
-from typing import Any, Dict, List
-from src.llm_engine import call_gemini, parse_json_response
+from typing import Any, Dict, List, TypedDict
+from langchain_groq import ChatGroq
+from langchain_core.prompts import ChatPromptTemplate
+from pydantic import BaseModel, Field
+from langgraph.graph import StateGraph, START, END
 
-class ScoutAgent:
-    def __init__(self, client):
-        self.client = client
-        self.system_instruction = (
-            "You are an elite AI Scout Agent. Your job is to evaluate a batch of candidates "
-            "against a job description simultaneously. Be strict but fair. "
-            "A match_score of 80+ is excellent, 50-79 is moderate. "
-            "Also estimate an interest_score (0-100) based on their profile, skills, and hidden satisfaction/salary expectations. "
-            "Return valid JSON only."
-        )
+# --- State Definition ---
+class GraphState(TypedDict):
+    candidates_list: List[Dict[str, Any]]
+    jd_text: str
+    match_weight: float
+    interest_weight: float
+    final_scores: List[Dict[str, Any]]
 
-    def evaluate_batch(self, jd_text: str, candidates: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        # Format the candidates compactly to fit in context
-        compact_candidates = []
-        for c in candidates:
-            compact_candidates.append({
+# --- Pydantic Models for Structured Output ---
+class CandidateEvaluation(BaseModel):
+    id: str = Field(description="The ID of the candidate")
+    match_score: int = Field(description="Score from 0-100 indicating JD match")
+    interest_score: int = Field(description="Score from 0-100 indicating candidate interest")
+    explanation: str = Field(description="Exactly 2 sentences explaining the scores")
+
+class BatchEvaluation(BaseModel):
+    results: List[CandidateEvaluation] = Field(description="List of candidate evaluations")
+
+class CandidateOutreach(BaseModel):
+    id: str = Field(description="The ID of the candidate")
+    outreach_message: str = Field(description="3-sentence outreach message")
+
+class BatchOutreach(BaseModel):
+    results: List[CandidateOutreach] = Field(description="List of outreach messages")
+
+# --- Node Functions ---
+def scout_node(state: GraphState):
+    """Evaluates candidates in batches against the JD."""
+    # Initialize Llama-3 70B via Groq
+    llm = ChatGroq(model_name="llama3-70b-8192", temperature=0)
+    structured_llm = llm.with_structured_output(BatchEvaluation)
+    
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", "You are an elite AI Scout Agent. Your job is to evaluate a batch of candidates against a job description simultaneously. Be strict but fair. A match_score of 80+ is excellent, 50-79 is moderate. Also estimate an interest_score (0-100) based on their profile, skills, and hidden satisfaction/salary expectations."),
+        ("user", "## Job Description\n{jd_text}\n\n## Candidates Batch\n{candidates_batch}")
+    ])
+    
+    chain = prompt | structured_llm
+    
+    candidates = state["candidates_list"]
+    match_w = state["match_weight"]
+    interest_w = state["interest_weight"]
+    
+    enriched_candidates = []
+    chunk_size = 15  # Process in chunks of 15 to ensure reliable structured output
+    
+    for i in range(0, len(candidates), chunk_size):
+        chunk = candidates[i:i + chunk_size]
+        compact_chunk = []
+        for c in chunk:
+            compact_chunk.append({
                 "id": c["id"],
                 "name": c["name"],
                 "title": c["title"],
@@ -30,7 +69,7 @@ class ScoutAgent:
             
         try:
             result = chain.invoke({
-                "jd_text": jd_text,
+                "jd_text": state["jd_text"],
                 "candidates_batch": json.dumps(compact_chunk, indent=2)
             })
             
@@ -51,54 +90,68 @@ class ScoutAgent:
                 enriched_candidates.append(c_copy)
                 
         except Exception as e:
-            raise RuntimeError(f"ScoutAgent failed to process batch: {e}\nRaw output: {raw_response[:500]}")
+            raise RuntimeError(f"ScoutAgent failed to process batch: {e}")
+            
+    # Sort and rank
+    enriched_candidates.sort(key=lambda x: x["final_score"], reverse=True)
+    for rank, c in enumerate(enriched_candidates, 1):
+        c["rank"] = rank
+        
+    return {"final_scores": enriched_candidates}
 
+def negotiator_node(state: GraphState):
+    """Drafts personalized outreach messages for the top candidates."""
+    llm = ChatGroq(model_name="llama3-70b-8192", temperature=0.7)
+    structured_llm = llm.with_structured_output(BatchOutreach)
+    
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", "You are a Negotiator Agent. Your job is to draft highly personalized, persuasive outreach messages to top candidates."),
+        ("user", "You are reaching out to the Top candidates for the following job.\n\n## Job Description\n{jd_text}\n\n## Top Candidates\n{candidates_batch}\n\nFor each candidate, write a highly persuasive 3-sentence outreach message. Tailor the hook based on their specific skills and hidden satisfaction level.")
+    ])
+    
+    chain = prompt | structured_llm
+    
+    final_scores = state["final_scores"]
+    top_3 = final_scores[:3]
+    
+    compact_candidates = []
+    for c in top_3:
+        compact_candidates.append({
+            "id": c["id"],
+            "name": c["name"],
+            "title": c["title"],
+            "skills": c.get("skills", []),
+            "satisfaction": c.get("current_job_satisfaction", "Unknown")
+        })
+        
+    try:
+        result = chain.invoke({
+            "jd_text": state["jd_text"][:1000],
+            "candidates_batch": json.dumps(compact_candidates, indent=2)
+        })
+        
+        results_map = {r.id: r for r in result.results}
+        
+        for c in top_3:
+            res = results_map.get(c["id"])
+            c["outreach_message"] = res.outreach_message if res else "Could not generate message."
+    except Exception as e:
+        print(f"Negotiator failed: {e}")
+        
+    return {"final_scores": final_scores}
 
-class NegotiatorAgent:
-    def __init__(self, client):
-        self.client = client
-        self.system_instruction = (
-            "You are a Negotiator Agent. Your job is to draft highly personalized, "
-            "persuasive outreach messages to top candidates."
-        )
-
-    def draft_outreach_batch(self, jd_text: str, candidates: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        compact_candidates = []
-        for c in candidates:
-            compact_candidates.append({
-                "id": c["id"],
-                "name": c["name"],
-                "title": c["title"],
-                "skills": c.get("skills", []),
-                "satisfaction": c.get("current_job_satisfaction", "Unknown")
-            })
-
-        prompt = f"""
-        You are reaching out to the Top {len(candidates)} candidates for the following job.
-        
-        ## Job Description
-        {jd_text[:1000]}
-        
-        ## Top Candidates
-        {json.dumps(compact_candidates, indent=2)}
-        
-        ## Instructions
-        For each candidate, write a highly persuasive 3-sentence outreach message.
-        Tailor the hook based on their specific skills and hidden satisfaction level.
-        Return ONLY a JSON object with a 'results' key containing an array.
-        Each item should have:
-        - "id": candidate id
-        - "outreach_message": "..."
-        """
-        raw_response = call_gemini(self.client, prompt, system_instruction=self.system_instruction)
-        
-        parsed = parse_json_response(raw_response)
-        results_list = parsed.get("results", [])
-        
-        enriched = []
-        results_map = {r["id"]: r for r in results_list if "id" in r}
-        for c in candidates:
-            c_copy = c.copy()
-            c_copy["outreach_message"] = results_map.get(c["id"], {}).get("outreach_message", "Could not generate message.")
-            enriched.append(c_copy)
-        return enriched
+# --- Graph Builder ---
+def build_workflow():
+    """Build and compile the LangGraph agentic workflow."""
+    workflow = StateGraph(GraphState)
+    
+    # Add nodes
+    workflow.add_node("scout", scout_node)
+    workflow.add_node("negotiator", negotiator_node)
+    
+    # Define edges
+    workflow.add_edge(START, "scout")
+    workflow.add_edge("scout", "negotiator")
+    workflow.add_edge("negotiator", END)
+    
+    return workflow.compile()

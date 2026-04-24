@@ -1,107 +1,93 @@
-# 🎯 Nexus Scout: AI-Powered Talent Scouting Agent
+# 🎯 Nexus Scout - AI Talent Agent
 
-**Deccan AI Catalyst Hackathon Submission**
+Nexus Scout completely moves beyond traditional LLM wrappers by leveraging **LangGraph** to build a robust, autonomous agentic workflow for talent scouting and negotiation. It intelligently batches resumes, evaluates them against complex job descriptions, and automatically delegates the top candidates to a Negotiator Node for hyper-personalized outreach.
 
-Nexus Scout is an agentic workflow that parses Job Descriptions, evaluates candidate profiles for technical fit, and simulates recruiter outreach to gauge genuine candidate interest.
+🚀 **Live Demo:** [Nexus Scout Catalyst](https://nexus-scout-catalyst.streamlit.app/)
 
-## 🔗 Links
-- **Live Demo:** [Insert your Streamlit URL here]
-- **Demo Video:** [Insert YouTube/Loom link here]
+---
 
-## 🧠 Architecture & Logic
+## 🧠 Agentic Architecture
 
-Nexus Scout employs a Multi-Agent Architecture (Scout Agent + Negotiator Agent) utilizing Batch Processing to optimize LLM context windows and bypass rate limits.
+The entire backend operates on a directed graph using LangGraph, ensuring fault-tolerant, stateful processing of candidates.
 
 ```mermaid
-flowchart TD
-    A[👤 User Inputs JD] --> B[📝 JD Parser]
-    B -->|Extracts Skills & Role| C(JD Context)
+graph TD
+    A[User Pastes JD] --> B(Graph State Initialized)
+    B --> C{Scout Node}
+    C -->|Batches 30 resumes via Llama-3.3 to avoid token limits| D[Router Node]
+    D -->|Filters Top 3| E{Negotiator Node}
+    E -->|Drafts personalized emails| F[Streamlit Dashboard]
     
-    D[(📁 candidates.json - 30 Profiles)] --> E[🔍 Scout Agent]
-    C --> E
-    E -->|Batch API Call| F[Match Score & Interest Score for ALL 30]
-    
-    F --> J{🏆 Leaderboard Engine}
-    J -->|Weighted Formula| K[Final Score & Top 3 Ranking]
-    
-    K --> G[✍️ Negotiator Agent]
-    C --> G
-    G -->|Batch API Call| H[Personalized 3-Sentence Outreach]
-    H --> L[📊 Streamlit Dashboard]
-    
-    classDef agent fill:#6366f1,stroke:#312e81,stroke-width:2px,color:#fff
-    classDef data fill:#1e293b,stroke:#475569,stroke-width:2px,color:#fff
-    classDef score fill:#10b981,stroke:#047857,stroke-width:2px,color:#fff
-    
-    class E,G agent
-    class D,C data
-    class F,K,H score
-```
-
-### ⚙️ Scoring Methodology
-
-The final ranking is determined by a weighted combination of two critical factors, all processed efficiently in a single batch to bypass strict free-tier rate limits:
-
-1. **Match Score (60%):** 
-   - Evaluates technical skills, past experience, and domain knowledge against the parsed JD requirements using Google Gemini 2.0 Flash.
-
-2. **Interest Score (40%):** 
-   - An estimate based on the candidate's hidden job satisfaction levels, salary expectations, and work mode preferences.
-
-Once ranked, the **Negotiator Agent** drafts a highly personalized, persuasive outreach message for the Top 3 candidates to ensure maximum conversion.
-
-*Note: The 60/40 weights are dynamically adjustable via the UI sidebar.*
-
-## 💻 Local Setup
-
-### 1. Install Dependencies
-Clone the repo and install the required Python packages:
-```bash
-git clone https://github.com/TecheSamosa/nexus-scout-catalyst.git
-cd nexus-scout-catalyst
-pip install -r requirements.txt
-```
-
-### 2. Set Up API Key
-Get a **free** Gemini API key from [Google AI Studio](https://aistudio.google.com/apikey).
-
-Create a `.env` file from the example:
-```bash
-cp .env.example .env
-```
-Edit `.env` and paste your key: `GEMINI_API_KEY="your_key"`
-*(Alternatively, you can paste the key directly into the app sidebar).*
-
-### 3. Run the App
-```bash
-streamlit run app.py
-```
-
-## 🛠️ Trade-offs & Tech Stack
-
-- **Stack:** 
-  - **Frontend:** Streamlit (with custom dark-mode CSS and Lottie animations)
-  - **Logic:** Python 3.10+
-  - **LLM Engine:** Google GenAI SDK (Gemini 2.0 Flash - Free Tier)
-- **Trade-off (Batching vs Loops):** Transitioned from looping individual API calls to a single batch call for all 30 candidates. This completely bypasses the `429 RESOURCE_EXHAUSTED` error on Gemini's free tier by maximizing the context window instead of hitting RPM limits.
-- **Trade-off (Data Source):** Chose a static JSON database (`data/candidates.json`) with 30 detailed synthetic profiles instead of live LinkedIn/resume scraping.
-
-## 📂 Project Structure
-
-```text
-├── app.py                  # Main Streamlit UI and execution flow
-├── data/
-│   └── candidates.json     # Synthetic candidate database (30 profiles)
-├── src/
-│   ├── jd_parser.py        # Regex/Keyword parser for JD structuring
-│   ├── llm_engine.py       # Gemini API client wrapper & JSON parser
-│   ├── agents.py           # ScoutAgent and NegotiatorAgent logic
-│   └── leaderboard.py      # Final score aggregation & ranking utilities
-├── .streamlit/
-│   └── config.toml         # Streamlit theming
-├── requirements.txt        # Python dependencies
-└── .env.example            # Template for environment variables
+    classDef node fill:#1e1b4b,stroke:#00f2fe,stroke-width:2px,color:#fff;
+    classDef action fill:#312e81,stroke:#6366f1,stroke-width:2px,color:#fff;
+    class A,F action;
+    class B,C,D,E node;
 ```
 
 ---
-*Built with ❤️ for the Deccan Catalyst Hackathon*
+
+## 📊 Scoring Logic & Math
+
+Nexus Scout evaluates candidates using a weighted algorithm to ensure we only target top-tier talent who are actually likely to accept an offer.
+
+*   **Match Score (0-100):** The LLM deeply evaluates the candidate's skills, past experience, and domain knowledge against the nuances of the Job Description.
+*   **Interest Score (0-100):** A predictive score evaluated based on the candidate's hidden `current_job_satisfaction` and `salary_expectation`.
+*   **Final Rank Formula:** The dashboard allows dynamic weight adjustments, but defaults to prioritizing skill fit while respecting retention probability:
+
+> **Final Score = (0.6 × Match Score) + (0.4 × Interest Score)**
+
+---
+
+## 💡 Sample Input & Output
+
+**Sample JD Snippet:**
+> *Senior Data Scientist — Requirements: 5+ years experience, expert in Python, PyTorch, and NLP. Must have experience deploying scalable ML models.*
+
+**Agent's Structured JSON Output:**
+```json
+{
+  "id": "c_12",
+  "match_score": 92,
+  "interest_score": 85,
+  "explanation": "The candidate has 6 years of experience heavily focused on PyTorch and NLP model deployment, perfectly aligning with the core requirements. Given their low job satisfaction and matching salary expectations, they are highly likely to be open to this role."
+}
+```
+
+---
+
+## 🛠️ Tech Stack & Trade-offs
+
+*   **Frontend:** Streamlit (Custom Glassmorphic CSS, Lottie Animations, Plotly Express)
+*   **Framework:** LangGraph & LangChain
+*   **LLM Engine:** Groq API (`llama-3.3-70b-versatile`)
+*   **Pydantic:** Guarantees 100% reliable structured JSON outputs from the LLM.
+
+**The Data Trade-off:** Instead of live web-scraping (which is prone to rate limits and unstructured data), we built a **synthetic `candidates.json` database containing exactly 30 highly diverse profiles**. Ranging from IIT/IIM Principal Architects to entry-level interns, this ensures **deterministic, scalable testing** of the agentic routing and batching logic without breaching context windows.
+
+---
+
+## 💻 Local Setup
+
+Want to run the agent locally? Follow these steps:
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/deccan-catalyst-scout.git
+   cd deccan-catalyst-scout
+   ```
+
+2. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Configure Environment Variables**
+   Create a `.env` file in the root directory and add your Groq API key:
+   ```env
+   GROQ_API_KEY="your_api_key_here"
+   ```
+
+4. **Launch the Agent**
+   ```bash
+   streamlit run app.py
+   ```
