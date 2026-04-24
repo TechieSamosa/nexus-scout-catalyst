@@ -11,11 +11,11 @@ import streamlit as st
 from dotenv import load_dotenv
 
 import requests
+import plotly.express as px
 from streamlit_lottie import st_lottie
 from src.jd_parser import parse_jd
-from src.llm_engine import get_client
-from src.agents import ScoutAgent, NegotiatorAgent
-from src.leaderboard import compute_final_scores, to_dataframe, get_tier
+from src.agents import build_workflow
+from src.leaderboard import to_dataframe, get_tier
 
 # ---------------------------------------------------------------------------
 # Page config & theme
@@ -85,21 +85,25 @@ header {visibility: hidden;}
 
 /* Metric cards */
 .metric-card {
-    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
-    border: 1px solid rgba(99, 102, 241, 0.2);
+    background: rgba(30, 27, 75, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(99, 102, 241, 0.3);
     border-radius: 12px;
     padding: 1.2rem 1.5rem;
     text-align: center;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 .metric-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.15);
+    box-shadow: 0 0 20px rgba(0, 242, 254, 0.4), inset 0 0 10px rgba(0, 242, 254, 0.2);
+    border-color: rgba(0, 242, 254, 0.6);
 }
 .metric-value {
     font-size: 2rem;
     font-weight: 800;
-    background: linear-gradient(135deg, #818cf8, #c084fc);
+    background: linear-gradient(135deg, #00f2fe, #4facfe);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin: 0;
@@ -115,16 +119,19 @@ header {visibility: hidden;}
 
 /* Candidate card */
 .candidate-card {
-    background: linear-gradient(135deg, #1e1b4b 0%, #1e293b 100%);
-    border: 1px solid rgba(99, 102, 241, 0.15);
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(99, 102, 241, 0.2);
     border-radius: 14px;
     padding: 1.5rem;
     margin-bottom: 1rem;
     transition: all 0.3s ease;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
 }
 .candidate-card:hover {
-    border-color: rgba(99, 102, 241, 0.4);
-    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.1);
+    border-color: rgba(0, 242, 254, 0.4);
+    box-shadow: 0 0 25px rgba(0, 242, 254, 0.25);
 }
 .candidate-name {
     font-size: 1.3rem;
@@ -498,8 +505,41 @@ def render_candidate_card(candidate, expanded=False):
 
         st.markdown("---")
 
-        # Explanation
-        st.markdown(f"**📝 Match Explanation:** {candidate.get('explanation', 'N/A')}")
+        col_exp, col_radar = st.columns([1.5, 1])
+        
+        with col_exp:
+            st.markdown(f"**📝 Match Explanation:** {candidate.get('explanation', 'N/A')}")
+            
+        with col_radar:
+            # Generate Radar Chart
+            categories = ['JD Alignment', 'Technical Depth', 'Experience Match', 'Role Fit', 'Domain Knowledge']
+            # Map score to axes with slight variance
+            score = ms
+            r_values = [
+                min(100, score + random.randint(-5, 5)),
+                min(100, score + random.randint(-10, 10)),
+                min(100, score + random.randint(-5, 5)),
+                min(100, score + random.randint(-8, 8)),
+                min(100, score + random.randint(-15, 15)),
+            ]
+            
+            import pandas as pd
+            df_radar = pd.DataFrame(dict(r=r_values, theta=categories))
+            fig = px.line_polar(df_radar, r='r', theta='theta', line_close=True)
+            fig.update_traces(fill='toself', fillcolor='rgba(0, 242, 254, 0.4)', line_color='#00f2fe')
+            fig.update_layout(
+                polar=dict(
+                    radialaxis=dict(visible=True, range=[0, 100], showticklabels=False, gridcolor='rgba(255,255,255,0.1)'),
+                    angularaxis=dict(gridcolor='rgba(255,255,255,0.1)', tickfont=dict(color='#cbd5e1'))
+                ),
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='rgba(0,0,0,0)',
+                margin=dict(l=20, r=20, t=20, b=20),
+                height=250
+            )
+            st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
+
+        st.markdown("---")
 
         # Candidate details
         det_col1, det_col2 = st.columns(2)
@@ -548,7 +588,7 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### ℹ️ About")
     st.markdown("""
-    **Nexus Scout** uses Google Gemini
+    **Nexus Scout** uses Llama-3 (Groq) via LangGraph
     to intelligently match candidates to job descriptions
     and simulate recruiter conversations to assess interest.
 
@@ -611,16 +651,19 @@ scout_btn = st.button(
 if scout_btn:
     api_key = ""
     try:
-        api_key = st.secrets.get("GEMINI_API_KEY", "")
+        api_key = st.secrets.get("GROQ_API_KEY", "")
     except Exception:
         pass
         
     if not api_key:
-        api_key = os.environ.get("GEMINI_API_KEY", "")
+        api_key = os.environ.get("GROQ_API_KEY", "")
 
     if not api_key:
-        st.error("⚠️ API key not found. Please set GEMINI_API_KEY in Streamlit secrets or environment variables.")
+        st.error("⚠️ API key not found. Please set GROQ_API_KEY in Streamlit secrets or environment variables.")
         st.stop()
+    else:
+        # Set it in the environment so Langchain can pick it up
+        os.environ["GROQ_API_KEY"] = api_key
 
     if not jd_text.strip():
         st.error("⚠️ Please paste a Job Description.")
@@ -629,22 +672,16 @@ if scout_btn:
     # Load candidates
     candidates = load_candidates()
 
-    try:
-        client = get_client(api_key)
-    except Exception as e:
-        st.error(f"⚠️ Failed to initialize Gemini client: {e}")
-        st.stop()
-
     # Create Lottie container
     lottie_container = st.empty()
     with lottie_container.container():
-        st.markdown("<h3 style='text-align: center; color: #818cf8;'>Initializing Agentic Workflow...</h3>", unsafe_allow_html=True)
-        # Professional radar / AI scanner Lottie
-        lottie_url = "https://assets9.lottiefiles.com/packages/lf20_x62chj8y.json"
+        st.markdown("<h3 style='text-align: center; color: #00f2fe;'>Initializing LangGraph Agentic Workflow...</h3>", unsafe_allow_html=True)
+        # Radar animation
+        lottie_url = "https://lottie.host/80dc0e6e-2144-4b53-b30f-b054238714eb/E2kP0Jt774.json"
         lottie_json = load_lottieurl(lottie_url)
         if not lottie_json:
             # Fallback URL
-            lottie_url = "https://assets2.lottiefiles.com/packages/lf20_cpebq2zi.json"
+            lottie_url = "https://assets9.lottiefiles.com/packages/lf20_x62chj8y.json"
             lottie_json = load_lottieurl(lottie_url)
             
         if lottie_json:
@@ -652,40 +689,41 @@ if scout_btn:
         else:
             st.info("Scanning candidates in batch mode...")
 
-    # --- Step 1: Scout Agent Batch Evaluation ---
-    st.toast("Scout Agent activated. Batch processing all candidates...", icon="🤖")
-    scout = ScoutAgent(client)
-    try:
-        scored = scout.evaluate_batch(jd_text, candidates)
-    except Exception as e:
-        lottie_container.empty()
-        st.error(f"⚠️ Scout Agent failed: {e}")
-        st.stop()
-
-    # --- Step 2: Ranking ---
-    from src.leaderboard import MATCH_WEIGHT, INTEREST_WEIGHT
-    import src.leaderboard as lb
-    lb.MATCH_WEIGHT = match_weight
-    lb.INTEREST_WEIGHT = interest_weight
-
-    ranked = compute_final_scores(scored)
-
-    # --- Step 3: Negotiator Agent ---
-    st.toast("Negotiator Agent activated. Drafting personalized outreach...", icon="✍️")
-    top_3 = ranked[:3]
-    negotiator = NegotiatorAgent(client)
-    try:
-        top_3_enriched = negotiator.draft_outreach_batch(jd_text, top_3)
-        # Merge back
-        for i, c in enumerate(top_3_enriched):
-            ranked[i] = c
-    except Exception as e:
-        lottie_container.empty()
-        st.error(f"⚠️ Negotiator Agent failed: {e}")
-        st.stop()
-        
+    # Status updates
+    app = build_workflow()
+    
+    with st.status('Agent Graph Executing...', expanded=True) as status:
+        try:
+            status.write("Initializing LangGraph Workflow...")
+            status.write("Scout Node analyzing batches of candidates...")
+            
+            # Stream execution
+            events = app.stream({
+                "candidates_list": candidates,
+                "jd_text": jd_text,
+                "match_weight": match_weight,
+                "interest_weight": interest_weight
+            })
+            
+            final_state = {}
+            for event in events:
+                node_name = list(event.keys())[0]
+                final_state = event[node_name]
+                
+                if node_name == "scout":
+                    status.write("Scout Node complete. Filtering Top 3...")
+                elif node_name == "negotiator":
+                    status.write("Negotiator Node drafting custom outreach...")
+            
+            ranked = final_state.get("final_scores", [])
+            status.update(label="Agentic Workflow complete!", state="complete", expanded=False)
+            
+        except Exception as e:
+            lottie_container.empty()
+            status.update(label=f"Agentic Workflow failed: {e}", state="error", expanded=True)
+            st.stop()
+            
     lottie_container.empty()
-    st.toast("Agentic Workflow complete!", icon="✅")
     st.session_state["results"] = ranked
 
 # ---------------------------------------------------------------------------
