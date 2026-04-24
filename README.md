@@ -57,7 +57,7 @@ Once ranked, the **Negotiator Agent** drafts a highly personalized, persuasive o
 ### 1. Install Dependencies
 Clone the repo and install the required Python packages:
 ```bash
-git clone https://github.com/YOUR_USERNAME/nexus-scout-catalyst.git
+git clone https://github.com/TecheSamosa/nexus-scout-catalyst.git
 cd nexus-scout-catalyst
 pip install -r requirements.txt
 ```
