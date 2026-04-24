@@ -2,10 +2,9 @@
   <h1>🚀 Nexus Scout</h1>
   <h3>AI-Powered Talent Agent & Multi-Agent Negotiation Pipeline</h3>
   <br />
-  <p>
-    <a href="https://nexus-scout-catalyst.streamlit.app/" target="_blank"><strong>✨ Launch Live Demo ✨</strong></a> · 
-    <a href="YOUR_YOUTUBE_OR_LOOM_LINK_HERE" target="_blank"><strong>🎥 Watch 4-Min Demo Video</strong></a>
-  </p>
+
+  **[✨ Launch Live Demo ✨](https://nexus-scout-catalyst.streamlit.app/)** · **[🎥 Watch 4-Min Demo Video](YOUR_YOUTUBE_OR_LOOM_LINK_HERE)**
+
 </div>
 
 ---
