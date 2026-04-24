@@ -1,4 +1,6 @@
-[
+import json
+
+candidates = [
     {
         "id": "c_01",
         "name": "Rukesh Reddy",
@@ -7,32 +9,13 @@
         "location": "New York, NY",
         "education": "B.Tech IIT Bombay, MBA IIM Ahmedabad",
         "notice_period": "60 days",
-        "salary_expectation": "$250,000 / \u20b92,00,00,000",
+        "salary_expectation": "$250,000 / ₹2,00,00,000",
         "preferred_work_mode": "Hybrid",
         "current_job_satisfaction": "Low",
         "summary": "Ex-McKinsey Tech Consultant & Principal Architect with deep expertise in leading digital transformations and scalable enterprise systems.",
-        "skills": [
-            "System Architecture",
-            "Cloud Computing",
-            "AWS",
-            "IT Strategy",
-            "Enterprise Architecture",
-            "Microservices",
-            "Team Leadership"
-        ],
-        "past_roles": [
-            {
-                "role": "Principal Architect",
-                "company": "Top Tier Tech Consultancy",
-                "duration": "5 years",
-                "highlights": [
-                    "Led a $50M cloud migration for a Fortune 500 company"
-                ]
-            }
-        ],
-        "certifications": [
-            "AWS Certified Solutions Architect - Professional"
-        ]
+        "skills": ["System Architecture", "Cloud Computing", "AWS", "IT Strategy", "Enterprise Architecture", "Microservices", "Team Leadership"],
+        "past_roles": [{"role": "Principal Architect", "company": "Top Tier Tech Consultancy", "duration": "5 years", "highlights": ["Led a $50M cloud migration for a Fortune 500 company"]}],
+        "certifications": ["AWS Certified Solutions Architect - Professional"]
     },
     {
         "id": "c_02",
@@ -42,29 +25,12 @@
         "location": "Bangalore, India",
         "education": "B.Tech Computer Science, IIT Indore",
         "notice_period": "30 days",
-        "salary_expectation": "\u20b940,00,000",
+        "salary_expectation": "₹40,00,000",
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "Moderate",
         "summary": "High-performing backend engineer from IIT Indore. Specializes in building distributed, high-throughput microservices.",
-        "skills": [
-            "Python",
-            "Django",
-            "Go",
-            "PostgreSQL",
-            "Kafka",
-            "Docker",
-            "Kubernetes"
-        ],
-        "past_roles": [
-            {
-                "role": "Backend Engineer",
-                "company": "Fintech Startup",
-                "duration": "3 years",
-                "highlights": [
-                    "Scaled payment gateway to 10M transactions/day"
-                ]
-            }
-        ],
+        "skills": ["Python", "Django", "Go", "PostgreSQL", "Kafka", "Docker", "Kubernetes"],
+        "past_roles": [{"role": "Backend Engineer", "company": "Fintech Startup", "duration": "3 years", "highlights": ["Scaled payment gateway to 10M transactions/day"]}],
         "certifications": []
     },
     {
@@ -75,28 +41,12 @@
         "location": "Hyderabad, India",
         "education": "M.S. in Computer Science, IIIT Hyderabad",
         "notice_period": "45 days",
-        "salary_expectation": "\u20b945,00,000",
+        "salary_expectation": "₹45,00,000",
         "preferred_work_mode": "Hybrid",
         "current_job_satisfaction": "High",
         "summary": "Passionate AI Researcher currently leading innovation initiatives at Deccan AI.",
-        "skills": [
-            "Machine Learning",
-            "Deep Learning",
-            "TensorFlow",
-            "PyTorch",
-            "NLP",
-            "LLMs"
-        ],
-        "past_roles": [
-            {
-                "role": "Lead AI Engineer",
-                "company": "Deccan AI",
-                "duration": "Current",
-                "highlights": [
-                    "Developed foundational models for edge deployment, improving latency by 40%"
-                ]
-            }
-        ],
+        "skills": ["Machine Learning", "Deep Learning", "TensorFlow", "PyTorch", "NLP", "LLMs"],
+        "past_roles": [{"role": "Lead AI Engineer", "company": "Deccan AI", "duration": "Current", "highlights": ["Developed foundational models for edge deployment, improving latency by 40%"]}],
         "certifications": []
     },
     {
@@ -107,17 +57,11 @@
         "location": "Bhopal, India",
         "education": "B.Tech Bio Engineering, VIT Bhopal (Class of 2026)",
         "notice_period": "Immediate",
-        "salary_expectation": "\u20b96,00,000",
+        "salary_expectation": "₹6,00,000",
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "Unknown",
         "summary": "Ambitious bio-engineering student looking for an intersection of data science and biology.",
-        "skills": [
-            "Python",
-            "Pandas",
-            "R",
-            "Bioinformatics",
-            "Data Visualization"
-        ],
+        "skills": ["Python", "Pandas", "R", "Bioinformatics", "Data Visualization"],
         "past_roles": [],
         "certifications": []
     },
@@ -129,27 +73,12 @@
         "location": "Vellore, India",
         "education": "Integrated M.Tech CSE (Spec in Data Science), VIT Vellore",
         "notice_period": "15 days",
-        "salary_expectation": "\u20b98,00,000",
+        "salary_expectation": "₹8,00,000",
         "preferred_work_mode": "Hybrid",
         "current_job_satisfaction": "Moderate",
         "summary": "Detail-oriented data science student with hands-on project experience in predictive modeling.",
-        "skills": [
-            "Python",
-            "Machine Learning",
-            "Scikit-learn",
-            "SQL",
-            "Tableau"
-        ],
-        "past_roles": [
-            {
-                "role": "Data Analyst Intern",
-                "company": "Tech Corp",
-                "duration": "6 months",
-                "highlights": [
-                    "Built customer churn prediction model"
-                ]
-            }
-        ],
+        "skills": ["Python", "Machine Learning", "Scikit-learn", "SQL", "Tableau"],
+        "past_roles": [{"role": "Data Analyst Intern", "company": "Tech Corp", "duration": "6 months", "highlights": ["Built customer churn prediction model"]}],
         "certifications": []
     },
     {
@@ -160,27 +89,12 @@
         "location": "Hyderabad, India",
         "education": "B.Tech Computer Science, JNTU Hyderabad",
         "notice_period": "30 days",
-        "salary_expectation": "\u20b915,00,000",
+        "salary_expectation": "₹15,00,000",
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "Low",
         "summary": "Creative frontend engineer with a knack for building responsive, accessible, and highly interactive user interfaces.",
-        "skills": [
-            "React.js",
-            "TypeScript",
-            "Tailwind CSS",
-            "Redux",
-            "Next.js"
-        ],
-        "past_roles": [
-            {
-                "role": "UI Engineer",
-                "company": "E-commerce Giant",
-                "duration": "2 years",
-                "highlights": [
-                    "Redesigned checkout flow increasing conversion by 15%"
-                ]
-            }
-        ],
+        "skills": ["React.js", "TypeScript", "Tailwind CSS", "Redux", "Next.js"],
+        "past_roles": [{"role": "UI Engineer", "company": "E-commerce Giant", "duration": "2 years", "highlights": ["Redesigned checkout flow increasing conversion by 15%"]}],
         "certifications": []
     },
     {
@@ -191,27 +105,12 @@
         "location": "Pune, India",
         "education": "B.Sc Statistics, Pune University",
         "notice_period": "Immediate",
-        "salary_expectation": "\u20b912,00,000",
+        "salary_expectation": "₹12,00,000",
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "Moderate",
         "summary": "Freelance data scientist specializing in cutting-edge neural architectures and generative AI.",
-        "skills": [
-            "Deep Learning",
-            "GANs",
-            "PyTorch",
-            "Computer Vision",
-            "OpenCV"
-        ],
-        "past_roles": [
-            {
-                "role": "Freelance ML Developer",
-                "company": "Self-Employed",
-                "duration": "2 years",
-                "highlights": [
-                    "Built custom GANs for synthetic data generation"
-                ]
-            }
-        ],
+        "skills": ["Deep Learning", "GANs", "PyTorch", "Computer Vision", "OpenCV"],
+        "past_roles": [{"role": "Freelance ML Developer", "company": "Self-Employed", "duration": "2 years", "highlights": ["Built custom GANs for synthetic data generation"]}],
         "certifications": []
     },
     {
@@ -222,31 +121,13 @@
         "location": "Pune, India",
         "education": "M.Tech AI, Pune University",
         "notice_period": "45 days",
-        "salary_expectation": "\u20b922,00,000",
+        "salary_expectation": "₹22,00,000",
         "preferred_work_mode": "Hybrid",
         "current_job_satisfaction": "High",
         "summary": "ML Engineer focused on taking models from research to production safely and efficiently.",
-        "skills": [
-            "MLOps",
-            "AWS SageMaker",
-            "Kubeflow",
-            "Docker",
-            "Python",
-            "CI/CD for ML"
-        ],
-        "past_roles": [
-            {
-                "role": "ML Engineer",
-                "company": "AI SaaS Inc",
-                "duration": "3 years",
-                "highlights": [
-                    "Reduced model deployment time by 60% using Kubeflow"
-                ]
-            }
-        ],
-        "certifications": [
-            "AWS Machine Learning Specialty"
-        ]
+        "skills": ["MLOps", "AWS SageMaker", "Kubeflow", "Docker", "Python", "CI/CD for ML"],
+        "past_roles": [{"role": "ML Engineer", "company": "AI SaaS Inc", "duration": "3 years", "highlights": ["Reduced model deployment time by 60% using Kubeflow"]}],
+        "certifications": ["AWS Machine Learning Specialty"]
     },
     {
         "id": "c_09",
@@ -256,27 +137,12 @@
         "location": "Pune, India",
         "education": "M.Sc Applied Statistics",
         "notice_period": "60 days",
-        "salary_expectation": "\u20b918,00,000",
+        "salary_expectation": "₹18,00,000",
         "preferred_work_mode": "On-site",
         "current_job_satisfaction": "Low",
         "summary": "Rigorous statistician with deep experience in experimental design and causal inference.",
-        "skills": [
-            "R",
-            "Statistical Modeling",
-            "Bayesian Inference",
-            "A/B Testing",
-            "SAS"
-        ],
-        "past_roles": [
-            {
-                "role": "Senior Statistician",
-                "company": "Pharma R&D",
-                "duration": "4 years",
-                "highlights": [
-                    "Designed clinical trial experiments"
-                ]
-            }
-        ]
+        "skills": ["R", "Statistical Modeling", "Bayesian Inference", "A/B Testing", "SAS"],
+        "past_roles": [{"role": "Senior Statistician", "company": "Pharma R&D", "duration": "4 years", "highlights": ["Designed clinical trial experiments"]}]
     },
     {
         "id": "c_10",
@@ -286,18 +152,11 @@
         "location": "Bangalore, India",
         "education": "B.Tech IT, NIT Surathkal",
         "notice_period": "30 days",
-        "salary_expectation": "\u20b920,00,000",
+        "salary_expectation": "₹20,00,000",
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "Moderate",
         "summary": "Building scalable and fault-tolerant data pipelines for real-time analytics.",
-        "skills": [
-            "Python",
-            "SQL",
-            "Apache Spark",
-            "Airflow",
-            "Snowflake",
-            "Kafka"
-        ]
+        "skills": ["Python", "SQL", "Apache Spark", "Airflow", "Snowflake", "Kafka"]
     },
     {
         "id": "c_11",
@@ -307,18 +166,11 @@
         "location": "Mumbai, India",
         "education": "B.Tech ECE, Mumbai University",
         "notice_period": "60 days",
-        "salary_expectation": "\u20b928,00,000",
+        "salary_expectation": "₹28,00,000",
         "preferred_work_mode": "Hybrid",
         "current_job_satisfaction": "Low",
         "summary": "Automation fanatic passionate about infrastructure as code and site reliability.",
-        "skills": [
-            "AWS",
-            "Terraform",
-            "Kubernetes",
-            "Jenkins",
-            "Prometheus",
-            "Grafana"
-        ]
+        "skills": ["AWS", "Terraform", "Kubernetes", "Jenkins", "Prometheus", "Grafana"]
     },
     {
         "id": "c_12",
@@ -328,17 +180,11 @@
         "location": "Noida, India",
         "education": "BCA, Amity University",
         "notice_period": "15 days",
-        "salary_expectation": "\u20b914,00,000",
+        "salary_expectation": "₹14,00,000",
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "High",
         "summary": "Crafting beautiful cross-platform mobile applications.",
-        "skills": [
-            "React Native",
-            "JavaScript",
-            "TypeScript",
-            "Redux",
-            "Firebase"
-        ]
+        "skills": ["React Native", "JavaScript", "TypeScript", "Redux", "Firebase"]
     },
     {
         "id": "c_13",
@@ -348,18 +194,11 @@
         "location": "Bangalore, India",
         "education": "M.Tech CSE, IIT Delhi",
         "notice_period": "90 days",
-        "salary_expectation": "\u20b980,00,000",
+        "salary_expectation": "₹80,00,000",
         "preferred_work_mode": "On-site",
         "current_job_satisfaction": "Moderate",
         "summary": "Veteran engineer who has scaled systems from zero to millions of concurrent users.",
-        "skills": [
-            "Java",
-            "Spring Boot",
-            "Microservices",
-            "Cassandra",
-            "Redis",
-            "System Design"
-        ]
+        "skills": ["Java", "Spring Boot", "Microservices", "Cassandra", "Redis", "System Design"]
     },
     {
         "id": "c_14",
@@ -369,17 +208,11 @@
         "location": "Chennai, India",
         "education": "B.Tech CSE, Anna University",
         "notice_period": "60 days",
-        "salary_expectation": "\u20b950,00,000",
+        "salary_expectation": "₹50,00,000",
         "preferred_work_mode": "Hybrid",
         "current_job_satisfaction": "Low",
         "summary": "Designing secure, cost-optimized cloud architectures for enterprise clients.",
-        "skills": [
-            "Azure",
-            "AWS",
-            "Cloud Migration",
-            "Kubernetes",
-            "Enterprise Architecture"
-        ]
+        "skills": ["Azure", "AWS", "Cloud Migration", "Kubernetes", "Enterprise Architecture"]
     },
     {
         "id": "c_15",
@@ -389,18 +222,11 @@
         "location": "Gurgaon, India",
         "education": "B.Tech, Delhi University",
         "notice_period": "30 days",
-        "salary_expectation": "\u20b925,00,000",
+        "salary_expectation": "₹25,00,000",
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "Moderate",
         "summary": "Ensuring 99.99% uptime for mission-critical SaaS platforms.",
-        "skills": [
-            "Linux",
-            "Python",
-            "Go",
-            "Ansible",
-            "Datadog",
-            "Incident Management"
-        ]
+        "skills": ["Linux", "Python", "Go", "Ansible", "Datadog", "Incident Management"]
     },
     {
         "id": "c_16",
@@ -410,17 +236,11 @@
         "location": "Pune, India",
         "education": "MCA, Symbiosis",
         "notice_period": "45 days",
-        "salary_expectation": "\u20b932,00,000",
+        "salary_expectation": "₹32,00,000",
         "preferred_work_mode": "Hybrid",
         "current_job_satisfaction": "High",
         "summary": "End-to-end web developer specializing in the MERN stack.",
-        "skills": [
-            "MongoDB",
-            "Express",
-            "React",
-            "Node.js",
-            "GraphQL"
-        ]
+        "skills": ["MongoDB", "Express", "React", "Node.js", "GraphQL"]
     },
     {
         "id": "c_17",
@@ -430,17 +250,11 @@
         "location": "Kochi, India",
         "education": "B.Tech Cyber Security",
         "notice_period": "30 days",
-        "salary_expectation": "\u20b910,00,000",
+        "salary_expectation": "₹10,00,000",
         "preferred_work_mode": "On-site",
         "current_job_satisfaction": "Low",
         "summary": "Finding vulnerabilities before the bad guys do.",
-        "skills": [
-            "Penetration Testing",
-            "Network Security",
-            "Python",
-            "Wireshark",
-            "Burp Suite"
-        ]
+        "skills": ["Penetration Testing", "Network Security", "Python", "Wireshark", "Burp Suite"]
     },
     {
         "id": "c_18",
@@ -450,17 +264,11 @@
         "location": "Ahmedabad, India",
         "education": "MBA, Nirma University",
         "notice_period": "60 days",
-        "salary_expectation": "\u20b935,00,000",
+        "salary_expectation": "₹35,00,000",
         "preferred_work_mode": "Hybrid",
         "current_job_satisfaction": "Moderate",
         "summary": "Bridging the gap between engineering and business to deliver impactful products.",
-        "skills": [
-            "Agile",
-            "Jira",
-            "Product Strategy",
-            "API Design",
-            "User Research"
-        ]
+        "skills": ["Agile", "Jira", "Product Strategy", "API Design", "User Research"]
     },
     {
         "id": "c_19",
@@ -470,17 +278,11 @@
         "location": "Hyderabad, India",
         "education": "B.Tech, Osmania University",
         "notice_period": "30 days",
-        "salary_expectation": "\u20b918,00,000",
+        "salary_expectation": "₹18,00,000",
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "High",
         "summary": "Building smooth, native iOS applications using Swift.",
-        "skills": [
-            "Swift",
-            "iOS",
-            "CoreData",
-            "Combine",
-            "XCTest"
-        ]
+        "skills": ["Swift", "iOS", "CoreData", "Combine", "XCTest"]
     },
     {
         "id": "c_20",
@@ -490,17 +292,11 @@
         "location": "Bangalore, India",
         "education": "B.E. VTU",
         "notice_period": "45 days",
-        "salary_expectation": "\u20b922,00,000",
+        "salary_expectation": "₹22,00,000",
         "preferred_work_mode": "Hybrid",
         "current_job_satisfaction": "Moderate",
         "summary": "Kotlin expert creating robust and scalable Android apps.",
-        "skills": [
-            "Kotlin",
-            "Android Studio",
-            "Jetpack Compose",
-            "Coroutines",
-            "MVVM"
-        ]
+        "skills": ["Kotlin", "Android Studio", "Jetpack Compose", "Coroutines", "MVVM"]
     },
     {
         "id": "c_21",
@@ -510,17 +306,11 @@
         "location": "Delhi, India",
         "education": "B.Tech CSE, DTU",
         "notice_period": "30 days",
-        "salary_expectation": "\u20b924,00,000",
+        "salary_expectation": "₹24,00,000",
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "Low",
         "summary": "Smart contract auditor and dApp developer.",
-        "skills": [
-            "Solidity",
-            "Ethereum",
-            "Web3.js",
-            "Rust",
-            "Smart Contracts"
-        ]
+        "skills": ["Solidity", "Ethereum", "Web3.js", "Rust", "Smart Contracts"]
     },
     {
         "id": "c_22",
@@ -530,17 +320,11 @@
         "location": "Mumbai, India",
         "education": "B.Des, NID",
         "notice_period": "30 days",
-        "salary_expectation": "\u20b916,00,000",
+        "salary_expectation": "₹16,00,000",
         "preferred_work_mode": "Hybrid",
         "current_job_satisfaction": "Moderate",
         "summary": "Designing intuitive and visually appealing user experiences.",
-        "skills": [
-            "Figma",
-            "Adobe XD",
-            "Wireframing",
-            "Prototyping",
-            "User Testing"
-        ]
+        "skills": ["Figma", "Adobe XD", "Wireframing", "Prototyping", "User Testing"]
     },
     {
         "id": "c_23",
@@ -550,17 +334,11 @@
         "location": "Pune, India",
         "education": "M.Tech Electronics",
         "notice_period": "60 days",
-        "salary_expectation": "\u20b930,00,000",
+        "salary_expectation": "₹30,00,000",
         "preferred_work_mode": "On-site",
         "current_job_satisfaction": "High",
         "summary": "Programming close to the metal for IoT and automotive systems.",
-        "skills": [
-            "C",
-            "C++",
-            "RTOS",
-            "Microcontrollers",
-            "IoT"
-        ]
+        "skills": ["C", "C++", "RTOS", "Microcontrollers", "IoT"]
     },
     {
         "id": "c_24",
@@ -570,17 +348,11 @@
         "location": "Trivandrum, India",
         "education": "B.Tech IT",
         "notice_period": "30 days",
-        "salary_expectation": "\u20b915,00,000",
+        "salary_expectation": "₹15,00,000",
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "Low",
         "summary": "Automating testing pipelines to ensure zero-defect releases.",
-        "skills": [
-            "Selenium",
-            "Appium",
-            "Cypress",
-            "Python",
-            "CI/CD"
-        ]
+        "skills": ["Selenium", "Appium", "Cypress", "Python", "CI/CD"]
     },
     {
         "id": "c_25",
@@ -590,17 +362,11 @@
         "location": "Kolkata, India",
         "education": "B.Sc Mathematics",
         "notice_period": "15 days",
-        "salary_expectation": "\u20b98,00,000",
+        "salary_expectation": "₹8,00,000",
         "preferred_work_mode": "Hybrid",
         "current_job_satisfaction": "Moderate",
         "summary": "Translating complex datasets into actionable business insights.",
-        "skills": [
-            "SQL",
-            "Excel",
-            "PowerBI",
-            "Python",
-            "Tableau"
-        ]
+        "skills": ["SQL", "Excel", "PowerBI", "Python", "Tableau"]
     },
     {
         "id": "c_26",
@@ -610,17 +376,11 @@
         "location": "Bangalore, India",
         "education": "B.Tech CSE",
         "notice_period": "45 days",
-        "salary_expectation": "\u20b928,00,000",
+        "salary_expectation": "₹28,00,000",
         "preferred_work_mode": "On-site",
         "current_job_satisfaction": "High",
         "summary": "Creating immersive 3D experiences and optimizing game engine performance.",
-        "skills": [
-            "Unity",
-            "C#",
-            "C++",
-            "Unreal Engine",
-            "3D Math"
-        ]
+        "skills": ["Unity", "C#", "C++", "Unreal Engine", "3D Math"]
     },
     {
         "id": "c_27",
@@ -630,16 +390,11 @@
         "location": "Jaipur, India",
         "education": "B.A. English Literature",
         "notice_period": "30 days",
-        "salary_expectation": "\u20b912,00,000",
+        "salary_expectation": "₹12,00,000",
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "Moderate",
         "summary": "Making complex software documentation easy to understand for developers.",
-        "skills": [
-            "Markdown",
-            "API Documentation",
-            "Git",
-            "Docusaurus"
-        ]
+        "skills": ["Markdown", "API Documentation", "Git", "Docusaurus"]
     },
     {
         "id": "c_28",
@@ -649,17 +404,11 @@
         "location": "Chennai, India",
         "education": "MBA",
         "notice_period": "60 days",
-        "salary_expectation": "\u20b925,00,000",
+        "salary_expectation": "₹25,00,000",
         "preferred_work_mode": "Hybrid",
         "current_job_satisfaction": "Low",
         "summary": "Facilitating agile ceremonies and removing blockers for high-performing teams.",
-        "skills": [
-            "Agile",
-            "Scrum",
-            "Jira",
-            "Kanban",
-            "Servant Leadership"
-        ]
+        "skills": ["Agile", "Scrum", "Jira", "Kanban", "Servant Leadership"]
     },
     {
         "id": "c_29",
@@ -669,17 +418,11 @@
         "location": "Lucknow, India",
         "education": "MCA",
         "notice_period": "60 days",
-        "salary_expectation": "\u20b930,00,000",
+        "salary_expectation": "₹30,00,000",
         "preferred_work_mode": "On-site",
         "current_job_satisfaction": "Moderate",
         "summary": "Optimizing complex queries and ensuring high availability for relational databases.",
-        "skills": [
-            "Oracle",
-            "PostgreSQL",
-            "SQL Server",
-            "Performance Tuning",
-            "Backup & Recovery"
-        ]
+        "skills": ["Oracle", "PostgreSQL", "SQL Server", "Performance Tuning", "Backup & Recovery"]
     },
     {
         "id": "c_30",
@@ -689,16 +432,18 @@
         "location": "Chandigarh, India",
         "education": "B.Tech ECE",
         "notice_period": "30 days",
-        "salary_expectation": "\u20b918,00,000",
+        "salary_expectation": "₹18,00,000",
         "preferred_work_mode": "Hybrid",
         "current_job_satisfaction": "High",
         "summary": "Maintaining robust enterprise network infrastructure and security.",
-        "skills": [
-            "Cisco",
-            "Routing",
-            "Switching",
-            "Firewalls",
-            "BGP"
-        ]
+        "skills": ["Cisco", "Routing", "Switching", "Firewalls", "BGP"]
     }
 ]
+
+import os
+file_path = "c:/Users/HP/Desktop/deccan-catalyst-scout/data/candidates.json"
+os.makedirs(os.path.dirname(file_path), exist_ok=True)
+with open(file_path, "w") as f:
+    json.dump(candidates, f, indent=4)
+
+print(f"Generated {len(candidates)} candidates.")
