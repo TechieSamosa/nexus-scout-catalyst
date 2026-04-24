@@ -16,41 +16,64 @@ Most AI hiring tools are simple LLM wrappers that crash under heavy context limi
 
 ```mermaid
 graph TD
-    A[👤 User Inputs JD] --> B[💾 Graph State Initialized]
-    B --> C[🕵️‍♂️ Scout Node <br> Batches 30 Resumes]
-    C -->|Llama-3.3-70b| D[📊 JSON Output: Scores & Explanations]
-    D --> E[🔀 Router Node <br> Filters Top 3]
-    E --> F[🤝 Negotiator Node <br> Reads Hidden Context]
-    F -->|Llama-3.3-70b| G[✉️ Personalized Outreach Drafted]
-    G --> H[🖥️ Streamlit Enterprise UI]
+    A[👤 User Inputs JD] -->|Parsed Text| B{💾 LangGraph State Manager}
+    
+    subgraph Multi-Agent Orchestration
+        B -->|Injects Resumes in Chunks of 5| C[🕵️‍♂️ Scout Node]
+        C -->|Outputs Match/Interest JSON| D[🔀 Decision Router]
+        D -->|Filters Only Top 3 Candidates| E[🤝 Negotiator Node]
+        E -->|Reads Hidden Satisfaction Data| F[✉️ Drafts Personalized Outreach]
+    end
+
+    subgraph Data & Inference Layer
+        DB[(Deccan AI Mock DB: 30 Profiles)] -.->|Candidate Feed| B
+        C ===|Batch Inference| LLM((Groq API: Llama-3.3-70b))
+        E ===|Zero-Shot Generation| LLM
+    end
+
+    F -->|Final Payload| G[🖥️ Streamlit Command Center UI]
+    
+    classDef node fill:#1e1b4b,stroke:#00f2fe,stroke-width:2px,color:#fff;
+    classDef state fill:#312e81,stroke:#6366f1,stroke-width:2px,color:#fff;
+    class A,G action;
+    class B state;
+    class C,D,E node;
 ```
 
-🧮 The Scoring Engine
+---
+
+## 🧮 The Scoring Engine
+
 Nexus Scout doesn't just look for keyword matches; it evaluates the whole picture using a weighted hybrid algorithm:
 
-Match Score (60% weight): The Scout Agent evaluates the candidate's technical depth, experience, and domain knowledge against the Job Description.
+*   **Match Score (60% weight):** The *Scout Agent* evaluates the candidate's technical depth, experience, and domain knowledge against the Job Description.
+*   **Interest Score (40% weight):** The *Negotiator Agent* assesses the candidate's hidden `current_job_satisfaction` and `salary_expectation` to determine how likely they are to actually accept an offer.
 
-Interest Score (40% weight): The Negotiator Agent assesses the candidate's hidden current_job_satisfaction and salary_expectation to determine how likely they are to actually accept an offer.
+> **Final Formula:**  
+> `Final Score = (Match Score × 0.6) + (Interest Score × 0.4)`
 
-Final Formula: Final Score = (Match * 0.6) + (Interest * 0.4)
+---
 
-🛠️ The Tech Stack
-Framework: Streamlit (with custom CSS and Lottie animations)
+## 🛠️ The Tech Stack & AI Declaration
 
-Orchestration: LangGraph & LangChain
+*   **Framework:** Streamlit (with Plotly custom charts & Lottie animations)
+*   **Orchestration:** LangGraph & LangChain
+*   **LLM Engine:** Groq API (`llama-3.3-70b-versatile`)
+*   **Data Structure:** Pydantic models for strict JSON enforcement
 
-LLM Engine: Groq API (llama-3.3-70b-versatile)
+🤖 **AI Tools Declaration:** In accordance with hackathon guidelines, this project was architected and developed utilizing the AntiGravity IDE, powered by Google Gemini 3.1 Pro and Claude Code, to rapidly prototype the LangGraph architecture, manage boilerplate, and optimize the multi-agent routing logic within the 48-hour window.
 
-Data Structure: Pydantic models for strict JSON enforcement.
+💡 **Note on Data:** To ensure deterministic, scalable testing of the agentic routing logic without violating real-world PII, this project utilizes a highly detailed synthetic database (`candidates.json`) of 30 diverse profiles, including customized easter-egg profiles of the Deccan AI leadership and engineering teams.
 
-Note on Data: To ensure deterministic, scalable testing of the agentic routing logic without violating real-world PII, this project utilizes a highly detailed synthetic database (candidates.json) of 30 diverse profiles, ranging from entry-level engineers to seasoned tech founders.
+---
 
-💻 Run it Locally
+## 💻 Run it Locally
+
 To fire up the LangGraph pipeline on your own machine, run the following commands:
 
-Bash
+```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/nexus-scout-catalyst.git
+git clone https://github.com/TechieSamosa/nexus-scout-catalyst.git
 
 # Enter the directory
 cd nexus-scout-catalyst
@@ -63,3 +86,4 @@ echo 'GROQ_API_KEY="your_groq_api_key_here"' > .env
 
 # Launch the Command Center
 streamlit run app.py
+```
