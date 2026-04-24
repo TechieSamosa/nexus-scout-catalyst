@@ -1,0 +1,292 @@
+[
+  {
+    "id": "C001",
+    "name": "Priya Sharma",
+    "title": "Senior Backend Engineer",
+    "experience_years": 6,
+    "location": "Hyderabad, India",
+    "education": "B.Tech Computer Science, IIT Bombay (2018)",
+    "skills": ["Python", "Django", "Flask", "PostgreSQL", "Docker", "AWS", "Redis", "Celery", "REST APIs", "Microservices"],
+    "certifications": ["AWS Solutions Architect Associate", "Docker Certified Associate"],
+    "past_roles": [
+      {
+        "company": "PayScale Technologies",
+        "role": "Senior Backend Engineer",
+        "duration": "3 years",
+        "highlights": ["Architected microservices handling 12K RPS for payment processing", "Led a team of 5 engineers", "Reduced API latency by 40% through caching strategies"]
+      },
+      {
+        "company": "InnoTech Solutions",
+        "role": "Backend Developer",
+        "duration": "3 years",
+        "highlights": ["Built RESTful APIs serving 2M+ daily users", "Implemented CI/CD pipelines with Jenkins and Docker"]
+      }
+    ],
+    "summary": "Passionate backend engineer with deep expertise in building scalable distributed systems. Strong advocate for clean code and test-driven development. Thrives in fast-paced environments and loves mentoring junior developers.",
+    "current_job_satisfaction": "Moderately dissatisfied — feels under-challenged in current role, micromanaged by leadership, and is passively exploring new opportunities that offer more autonomy and technical depth",
+    "salary_expectation": "₹28-32 LPA",
+    "notice_period": "30 days",
+    "preferred_work_mode": "Hybrid"
+  },
+  {
+    "id": "C002",
+    "name": "Arjun Mehta",
+    "title": "Full Stack Developer",
+    "experience_years": 4,
+    "location": "Bangalore, India",
+    "education": "B.E. Information Technology, BITS Pilani (2020)",
+    "skills": ["React", "Node.js", "TypeScript", "MongoDB", "Express.js", "GraphQL", "Tailwind CSS", "Next.js", "Firebase", "Git"],
+    "certifications": ["Meta Front-End Developer Professional Certificate"],
+    "past_roles": [
+      {
+        "company": "UrbanClap (now Urban Company)",
+        "role": "Full Stack Developer",
+        "duration": "2.5 years",
+        "highlights": ["Developed customer-facing booking platform used by 500K+ users", "Implemented real-time notifications using WebSockets", "Improved page load performance by 55%"]
+      },
+      {
+        "company": "Freelance",
+        "role": "Web Developer",
+        "duration": "1.5 years",
+        "highlights": ["Delivered 12+ client projects including e-commerce and SaaS dashboards", "Built reusable component libraries"]
+      }
+    ],
+    "summary": "Creative full-stack developer who bridges design and engineering. Passionate about pixel-perfect UIs and seamless user experiences. Active open-source contributor with 800+ GitHub stars across personal projects.",
+    "current_job_satisfaction": "Highly dissatisfied — current company is going through layoffs, team morale is low, and he is actively interviewing at multiple companies",
+    "salary_expectation": "₹18-22 LPA",
+    "notice_period": "15 days",
+    "preferred_work_mode": "Remote"
+  },
+  {
+    "id": "C003",
+    "name": "Sneha Reddy",
+    "title": "Machine Learning Engineer",
+    "experience_years": 5,
+    "location": "Pune, India",
+    "education": "M.Tech AI & Machine Learning, IIIT Hyderabad (2019)",
+    "skills": ["Python", "TensorFlow", "PyTorch", "Scikit-learn", "NLP", "Computer Vision", "MLOps", "Kubeflow", "Pandas", "SQL"],
+    "certifications": ["TensorFlow Developer Certificate", "Google Cloud Professional ML Engineer"],
+    "past_roles": [
+      {
+        "company": "Fractal Analytics",
+        "role": "ML Engineer",
+        "duration": "3 years",
+        "highlights": ["Built demand forecasting models saving $2M annually for retail client", "Deployed 8 production ML pipelines on GCP", "Published internal research paper on transformer-based time series forecasting"]
+      },
+      {
+        "company": "TCS Research",
+        "role": "Research Intern → Junior ML Engineer",
+        "duration": "2 years",
+        "highlights": ["Developed NLP pipeline for contract analysis with 92% accuracy", "Co-authored paper at AAAI workshop"]
+      }
+    ],
+    "summary": "Research-oriented ML engineer with a strong publication record and production deployment experience. Specializes in NLP and time-series forecasting. Passionate about making AI accessible and explainable.",
+    "current_job_satisfaction": "Neutral — enjoys the work but feels compensation is below market rate. Open to roles with better pay and the chance to work on cutting-edge GenAI projects",
+    "salary_expectation": "₹30-38 LPA",
+    "notice_period": "60 days",
+    "preferred_work_mode": "Hybrid"
+  },
+  {
+    "id": "C004",
+    "name": "Rahul Joshi",
+    "title": "DevOps & Cloud Engineer",
+    "experience_years": 7,
+    "location": "Mumbai, India",
+    "education": "B.Tech Electronics & Communication, NIT Trichy (2017)",
+    "skills": ["AWS", "Terraform", "Kubernetes", "Docker", "Jenkins", "Ansible", "Python", "Bash", "Prometheus", "Grafana", "Linux"],
+    "certifications": ["AWS DevOps Engineer Professional", "Certified Kubernetes Administrator (CKA)", "HashiCorp Terraform Associate"],
+    "past_roles": [
+      {
+        "company": "Razorpay",
+        "role": "Senior DevOps Engineer",
+        "duration": "4 years",
+        "highlights": ["Managed infrastructure for 99.99% uptime payment systems", "Reduced cloud costs by 30% through right-sizing and spot instances", "Built zero-downtime deployment pipelines for 50+ microservices"]
+      },
+      {
+        "company": "Wipro",
+        "role": "Cloud Engineer",
+        "duration": "3 years",
+        "highlights": ["Migrated 15 legacy applications to AWS", "Automated infrastructure provisioning with Terraform"]
+      }
+    ],
+    "summary": "Battle-tested DevOps engineer who has scaled infrastructure for fintech at production scale. Deep expertise in AWS, Kubernetes, and infrastructure-as-code. Known for building self-healing, observable systems.",
+    "current_job_satisfaction": "Very satisfied — loves the team, compensation is excellent, and he's recently been promoted. Not actively looking but would consider a truly exceptional offer with a leadership role",
+    "salary_expectation": "₹40-48 LPA",
+    "notice_period": "90 days",
+    "preferred_work_mode": "On-site"
+  },
+  {
+    "id": "C005",
+    "name": "Ananya Krishnan",
+    "title": "Data Analyst",
+    "experience_years": 2,
+    "location": "Chennai, India",
+    "education": "M.Sc Statistics, Indian Statistical Institute Kolkata (2022)",
+    "skills": ["Python", "SQL", "Power BI", "Tableau", "Excel", "Pandas", "R", "Statistical Modeling", "A/B Testing", "Data Storytelling"],
+    "certifications": ["Google Data Analytics Professional Certificate", "Tableau Desktop Specialist"],
+    "past_roles": [
+      {
+        "company": "Swiggy",
+        "role": "Data Analyst",
+        "duration": "2 years",
+        "highlights": ["Analyzed delivery time patterns across 12 cities, reducing average delivery time by 8 minutes", "Built executive dashboards tracking $50M+ in GMV", "Designed A/B testing framework for menu recommendation engine"]
+      }
+    ],
+    "summary": "Early-career data analyst with an exceptional statistics foundation and a knack for turning messy data into compelling business narratives. Quick learner eager to grow into a data science role.",
+    "current_job_satisfaction": "Slightly dissatisfied — wants to transition from pure analytics to a more technical data science or ML role. Feels current role is too reporting-heavy with limited growth",
+    "salary_expectation": "₹12-16 LPA",
+    "notice_period": "30 days",
+    "preferred_work_mode": "Remote"
+  },
+  {
+    "id": "C006",
+    "name": "Vikram Singh",
+    "title": "Frontend Engineer",
+    "experience_years": 5,
+    "location": "Delhi NCR, India",
+    "education": "B.Tech Computer Science, DTU Delhi (2019)",
+    "skills": ["React", "TypeScript", "Next.js", "Vue.js", "CSS/SCSS", "Webpack", "Jest", "Cypress", "Figma", "Web Accessibility"],
+    "certifications": ["AWS Cloud Practitioner"],
+    "past_roles": [
+      {
+        "company": "Flipkart",
+        "role": "Frontend Engineer II",
+        "duration": "3 years",
+        "highlights": ["Built product listing page serving 10M+ daily visitors", "Achieved 95+ Lighthouse performance scores across key pages", "Led migration from class components to React Hooks"]
+      },
+      {
+        "company": "Zomato",
+        "role": "Junior Frontend Developer",
+        "duration": "2 years",
+        "highlights": ["Developed restaurant review interface with real-time updates", "Implemented responsive design system used across 4 products"]
+      }
+    ],
+    "summary": "Performance-obsessed frontend engineer with experience at India's top consumer tech companies. Deeply cares about accessibility and user experience. Comfortable leading frontend architecture decisions.",
+    "current_job_satisfaction": "Moderately satisfied — likes the technical challenges but is burned out by the intense on-call rotation. Would consider a switch for better work-life balance and a senior/lead title",
+    "salary_expectation": "₹25-30 LPA",
+    "notice_period": "60 days",
+    "preferred_work_mode": "Hybrid"
+  },
+  {
+    "id": "C007",
+    "name": "Meera Patel",
+    "title": "Product Manager",
+    "experience_years": 8,
+    "location": "Bangalore, India",
+    "education": "MBA, IIM Ahmedabad (2016); B.Tech CS, VJTI Mumbai (2014)",
+    "skills": ["Product Strategy", "Roadmapping", "User Research", "Agile/Scrum", "SQL", "Jira", "Analytics", "A/B Testing", "Stakeholder Management", "Go-to-Market"],
+    "certifications": ["Pragmatic Institute Certified Product Manager", "Certified Scrum Product Owner (CSPO)"],
+    "past_roles": [
+      {
+        "company": "PhonePe",
+        "role": "Senior Product Manager",
+        "duration": "4 years",
+        "highlights": ["Owned insurance vertical growing from 0 to 5M policies/month", "Drove 120% increase in cross-sell conversion through UX redesign", "Managed cross-functional team of 20+ engineers and designers"]
+      },
+      {
+        "company": "Housing.com",
+        "role": "Product Manager",
+        "duration": "3 years",
+        "highlights": ["Launched rental platform in 8 cities", "Increased user retention by 35% through gamification features"]
+      },
+      {
+        "company": "Infosys",
+        "role": "Business Analyst",
+        "duration": "1 year",
+        "highlights": ["Requirements gathering and process mapping for banking client"]
+      }
+    ],
+    "summary": "Strategic product leader with a strong technical background and a track record of scaling products from 0 to millions of users. Exceptional at aligning engineering, design, and business objectives. Data-driven decision maker.",
+    "current_job_satisfaction": "Dissatisfied — company underwent a major re-org, lost her team, and is now reporting to someone less experienced. Actively looking to join an early-stage startup as Head of Product",
+    "salary_expectation": "₹45-55 LPA",
+    "notice_period": "30 days",
+    "preferred_work_mode": "On-site"
+  },
+  {
+    "id": "C008",
+    "name": "Karthik Nair",
+    "title": "Cybersecurity Analyst",
+    "experience_years": 4,
+    "location": "Kochi, India",
+    "education": "B.Tech Computer Science, NIT Calicut (2020)",
+    "skills": ["Penetration Testing", "SIEM", "Splunk", "Network Security", "OWASP", "Python", "Bash", "Incident Response", "Threat Modeling", "ISO 27001"],
+    "certifications": ["CEH (Certified Ethical Hacker)", "CompTIA Security+", "OSCP (in progress)"],
+    "past_roles": [
+      {
+        "company": "Deloitte India",
+        "role": "Cybersecurity Consultant",
+        "duration": "2.5 years",
+        "highlights": ["Conducted 30+ penetration tests for banking and healthcare clients", "Identified critical zero-day vulnerability in client's payment gateway", "Built automated security scanning pipeline"]
+      },
+      {
+        "company": "Kerala Police Cyberdome",
+        "role": "Security Analyst Intern → Analyst",
+        "duration": "1.5 years",
+        "highlights": ["Assisted in investigating 50+ cybercrime cases", "Developed phishing detection tool used by state agencies"]
+      }
+    ],
+    "summary": "Passionate cybersecurity professional with hands-on experience in offensive and defensive security. Driven by the mission to make the internet safer. Active CTF player ranked in India's top 50.",
+    "current_job_satisfaction": "Slightly satisfied — enjoys the work but Deloitte's consulting model means constant travel. Wants a product security role where he can go deeper instead of breadth-first consulting",
+    "salary_expectation": "₹18-24 LPA",
+    "notice_period": "30 days",
+    "preferred_work_mode": "Remote"
+  },
+  {
+    "id": "C009",
+    "name": "Divya Agarwal",
+    "title": "AI/GenAI Engineer",
+    "experience_years": 3,
+    "location": "Bangalore, India",
+    "education": "M.S. Computer Science (NLP specialization), Carnegie Mellon University (2021)",
+    "skills": ["Python", "LangChain", "LlamaIndex", "OpenAI API", "Hugging Face", "RAG", "Vector Databases", "Prompt Engineering", "FastAPI", "Streamlit"],
+    "certifications": ["DeepLearning.AI Generative AI with LLMs", "LangChain for LLM Application Development"],
+    "past_roles": [
+      {
+        "company": "Turing",
+        "role": "GenAI Engineer",
+        "duration": "2 years",
+        "highlights": ["Built RAG pipeline for enterprise knowledge base serving 10K+ employees", "Fine-tuned LLaMA 2 model for domain-specific code generation", "Reduced hallucination rate by 60% through advanced retrieval strategies"]
+      },
+      {
+        "company": "CMU Language Technologies Institute",
+        "role": "Research Assistant",
+        "duration": "1 year",
+        "highlights": ["Published paper on multi-modal reasoning at EMNLP", "Developed benchmark dataset for conversational AI evaluation"]
+      }
+    ],
+    "summary": "Cutting-edge GenAI engineer with a research background from CMU and production experience building LLM-powered applications. Deep expertise in RAG, prompt engineering, and LLM fine-tuning. Passionate about building AI that actually works in the real world.",
+    "current_job_satisfaction": "Highly dissatisfied — Turing recently pivoted away from AI R&D toward staffing, and Divya's role has become more project management than engineering. Desperately seeking a pure GenAI engineering role at a company that's AI-first",
+    "salary_expectation": "₹35-45 LPA",
+    "notice_period": "15 days",
+    "preferred_work_mode": "Remote"
+  },
+  {
+    "id": "C010",
+    "name": "Aditya Kulkarni",
+    "title": "Mobile App Developer",
+    "experience_years": 6,
+    "location": "Pune, India",
+    "education": "B.E. Computer Engineering, COEP Pune (2018)",
+    "skills": ["Flutter", "Dart", "Kotlin", "Swift", "Firebase", "REST APIs", "SQLite", "Bloc Pattern", "CI/CD", "App Store Optimization"],
+    "certifications": ["Google Associate Android Developer", "Flutter Development Bootcamp (Udemy, Angela Yu)"],
+    "past_roles": [
+      {
+        "company": "CRED",
+        "role": "Senior Mobile Developer",
+        "duration": "3 years",
+        "highlights": ["Core contributor to CRED's flagship Flutter app (10M+ downloads)", "Implemented biometric authentication and UPI deep-linking", "Reduced app crash rate from 2.1% to 0.3%"]
+      },
+      {
+        "company": "Persistent Systems",
+        "role": "Mobile Developer",
+        "duration": "3 years",
+        "highlights": ["Built native Android and iOS apps for enterprise clients", "Developed offline-first data sync engine"]
+      }
+    ],
+    "summary": "Mobile-first engineer with deep Flutter expertise and native platform knowledge. Has shipped apps used by millions. Meticulous about app performance, animations, and user delight. Advocates for cross-platform development done right.",
+    "current_job_satisfaction": "Satisfied — CRED offers great culture and compensation. However, Aditya is curious about transitioning to a founding engineer role at an early-stage startup. Would consider the right opportunity but is in no rush",
+    "salary_expectation": "₹32-40 LPA",
+    "notice_period": "60 days",
+    "preferred_work_mode": "Hybrid"
+  }
+]
