@@ -1,4 +1,7 @@
-[
+import json
+import os
+
+candidates = [
     {
         "id": "c_01",
         "name": "Aditya Khamitkar",
@@ -11,14 +14,7 @@
         "preferred_work_mode": "Hybrid",
         "current_job_satisfaction": "Moderate",
         "summary": "Passionate Junior Data Scientist focusing on advanced LLM architectures.",
-        "skills": [
-            "Deep Learning",
-            "LLM Architectures",
-            "Python",
-            "PyTorch",
-            "Transformers",
-            "NLP"
-        ],
+        "skills": ["Deep Learning", "LLM Architectures", "Python", "PyTorch", "Transformers", "NLP"],
         "past_roles": [],
         "certifications": []
     },
@@ -34,23 +30,8 @@
         "preferred_work_mode": "Hybrid",
         "current_job_satisfaction": "Extremely high - building my own company",
         "summary": "15+ yrs leadership experience at Citi, Monitor, and JP Morgan. Currently leading Deccan AI.",
-        "skills": [
-            "Leadership",
-            "Strategy",
-            "Finance",
-            "AI Strategy",
-            "Enterprise Architecture"
-        ],
-        "past_roles": [
-            {
-                "role": "Vice President",
-                "company": "JP Morgan",
-                "duration": "5 years",
-                "highlights": [
-                    "Led global AI strategy"
-                ]
-            }
-        ],
+        "skills": ["Leadership", "Strategy", "Finance", "AI Strategy", "Enterprise Architecture"],
+        "past_roles": [{"role": "Vice President", "company": "JP Morgan", "duration": "5 years", "highlights": ["Led global AI strategy"]}],
         "certifications": []
     },
     {
@@ -65,12 +46,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "High",
         "summary": "Driving growth and new account acquisition for AI solutions.",
-        "skills": [
-            "Sales",
-            "Account Management",
-            "B2B Sales",
-            "AI Solutions Strategy"
-        ],
+        "skills": ["Sales", "Account Management", "B2B Sales", "AI Solutions Strategy"],
         "past_roles": [],
         "certifications": []
     },
@@ -86,12 +62,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "High",
         "summary": "Managing key strategic partnerships and enterprise accounts.",
-        "skills": [
-            "Enterprise Sales",
-            "Strategic Partnerships",
-            "Negotiation",
-            "Business Development"
-        ],
+        "skills": ["Enterprise Sales", "Strategic Partnerships", "Negotiation", "Business Development"],
         "past_roles": [],
         "certifications": []
     },
@@ -107,12 +78,7 @@
         "preferred_work_mode": "Hybrid",
         "current_job_satisfaction": "High",
         "summary": "Defining the roadmap and strategic initiatives for scaling AI products.",
-        "skills": [
-            "Corporate Strategy",
-            "Product Strategy",
-            "Market Analysis",
-            "Leadership"
-        ],
+        "skills": ["Corporate Strategy", "Product Strategy", "Market Analysis", "Leadership"],
         "past_roles": [],
         "certifications": []
     },
@@ -128,14 +94,7 @@
         "preferred_work_mode": "Hybrid",
         "current_job_satisfaction": "High",
         "summary": "Engineering lead overseeing full-stack development and backend architecture.",
-        "skills": [
-            "System Design",
-            "Backend Architecture",
-            "Python",
-            "Go",
-            "Cloud Computing",
-            "Team Leadership"
-        ],
+        "skills": ["System Design", "Backend Architecture", "Python", "Go", "Cloud Computing", "Team Leadership"],
         "past_roles": [],
         "certifications": []
     },
@@ -151,12 +110,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "High",
         "summary": "Ensuring enterprise clients achieve maximum value from AI integrations.",
-        "skills": [
-            "Customer Success",
-            "Client Onboarding",
-            "CRM",
-            "Retention Strategy"
-        ],
+        "skills": ["Customer Success", "Client Onboarding", "CRM", "Retention Strategy"],
         "past_roles": [],
         "certifications": []
     },
@@ -172,13 +126,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "High",
         "summary": "Specialist in building multi-agent workflows and autonomous systems.",
-        "skills": [
-            "LangChain",
-            "LangGraph",
-            "LLMs",
-            "Python",
-            "Agentic Workflows"
-        ],
+        "skills": ["LangChain", "LangGraph", "LLMs", "Python", "Agentic Workflows"],
         "past_roles": [],
         "certifications": []
     },
@@ -194,14 +142,7 @@
         "preferred_work_mode": "Hybrid",
         "current_job_satisfaction": "High",
         "summary": "Focused on deploying ML models and building scalable inference pipelines.",
-        "skills": [
-            "Machine Learning",
-            "MLOps",
-            "Python",
-            "Docker",
-            "AWS",
-            "TensorFlow"
-        ],
+        "skills": ["Machine Learning", "MLOps", "Python", "Docker", "AWS", "TensorFlow"],
         "past_roles": [],
         "certifications": []
     },
@@ -217,14 +158,7 @@
         "preferred_work_mode": "Hybrid",
         "current_job_satisfaction": "High",
         "summary": "Leading the fine-tuning, RLHF, and post-training optimization of large language models.",
-        "skills": [
-            "LLM Fine-tuning",
-            "RLHF",
-            "PyTorch",
-            "HuggingFace",
-            "Distributed Training",
-            "NLP"
-        ],
+        "skills": ["LLM Fine-tuning", "RLHF", "PyTorch", "HuggingFace", "Distributed Training", "NLP"],
         "past_roles": [],
         "certifications": []
     },
@@ -240,12 +174,7 @@
         "preferred_work_mode": "Hybrid",
         "current_job_satisfaction": "High",
         "summary": "Scaling the team and building a strong engineering culture at Deccan AI.",
-        "skills": [
-            "Talent Acquisition",
-            "Employee Engagement",
-            "HR Strategy",
-            "Operations"
-        ],
+        "skills": ["Talent Acquisition", "Employee Engagement", "HR Strategy", "Operations"],
         "past_roles": [],
         "certifications": []
     },
@@ -261,13 +190,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "High",
         "summary": "Automating deployments and ensuring high availability across cloud environments.",
-        "skills": [
-            "Kubernetes",
-            "Docker",
-            "Terraform",
-            "CI/CD",
-            "AWS"
-        ],
+        "skills": ["Kubernetes", "Docker", "Terraform", "CI/CD", "AWS"],
         "past_roles": [],
         "certifications": []
     },
@@ -283,12 +206,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "High",
         "summary": "Crafting beautiful and responsive user interfaces.",
-        "skills": [
-            "React",
-            "TypeScript",
-            "Tailwind CSS",
-            "Next.js"
-        ],
+        "skills": ["React", "TypeScript", "Tailwind CSS", "Next.js"],
         "past_roles": [],
         "certifications": []
     },
@@ -304,13 +222,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "High",
         "summary": "Building scalable data pipelines for LLM training datasets.",
-        "skills": [
-            "Apache Spark",
-            "Python",
-            "SQL",
-            "Airflow",
-            "Kafka"
-        ],
+        "skills": ["Apache Spark", "Python", "SQL", "Airflow", "Kafka"],
         "past_roles": [],
         "certifications": []
     },
@@ -326,13 +238,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "High",
         "summary": "Developing robust APIs for AI applications.",
-        "skills": [
-            "Python",
-            "FastAPI",
-            "PostgreSQL",
-            "Redis",
-            "Docker"
-        ],
+        "skills": ["Python", "FastAPI", "PostgreSQL", "Redis", "Docker"],
         "past_roles": [],
         "certifications": []
     },
@@ -348,12 +254,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "High",
         "summary": "Assisting with data preparation and model evaluation.",
-        "skills": [
-            "Python",
-            "Pandas",
-            "Scikit-learn",
-            "Jupyter"
-        ],
+        "skills": ["Python", "Pandas", "Scikit-learn", "Jupyter"],
         "past_roles": [],
         "certifications": []
     },
@@ -369,12 +270,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "High",
         "summary": "Analyzing data and training predictive models.",
-        "skills": [
-            "Machine Learning",
-            "Python",
-            "SQL",
-            "Data Visualization"
-        ],
+        "skills": ["Machine Learning", "Python", "SQL", "Data Visualization"],
         "past_roles": [],
         "certifications": []
     },
@@ -390,12 +286,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "High",
         "summary": "Designing high-throughput microservices.",
-        "skills": [
-            "Go",
-            "Python",
-            "Microservices",
-            "System Design"
-        ],
+        "skills": ["Go", "Python", "Microservices", "System Design"],
         "past_roles": [],
         "certifications": []
     },
@@ -411,12 +302,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "High",
         "summary": "Managing cloud infrastructure and security for AI deployments.",
-        "skills": [
-            "AWS",
-            "GCP",
-            "Cloud Security",
-            "Infrastructure as Code"
-        ],
+        "skills": ["AWS", "GCP", "Cloud Security", "Infrastructure as Code"],
         "past_roles": [],
         "certifications": []
     },
@@ -432,12 +318,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "High",
         "summary": "Ensuring the reliability of AI applications through automated testing.",
-        "skills": [
-            "Selenium",
-            "PyTest",
-            "CI/CD",
-            "Quality Assurance"
-        ],
+        "skills": ["Selenium", "PyTest", "CI/CD", "Quality Assurance"],
         "past_roles": [],
         "certifications": []
     },
@@ -453,12 +334,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "High",
         "summary": "Designing intuitive interfaces for complex AI tools.",
-        "skills": [
-            "Figma",
-            "UI/UX",
-            "User Research",
-            "Prototyping"
-        ],
+        "skills": ["Figma", "UI/UX", "User Research", "Prototyping"],
         "past_roles": [],
         "certifications": []
     },
@@ -474,13 +350,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "High",
         "summary": "Developing end-to-end features for internal dashboards.",
-        "skills": [
-            "React",
-            "Node.js",
-            "Express",
-            "MongoDB",
-            "TypeScript"
-        ],
+        "skills": ["React", "Node.js", "Express", "MongoDB", "TypeScript"],
         "past_roles": [],
         "certifications": []
     },
@@ -496,12 +366,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "High",
         "summary": "Securing infrastructure and AI endpoints.",
-        "skills": [
-            "Cyber Security",
-            "Penetration Testing",
-            "Network Security",
-            "Python"
-        ],
+        "skills": ["Cyber Security", "Penetration Testing", "Network Security", "Python"],
         "past_roles": [],
         "certifications": []
     },
@@ -517,12 +382,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "High",
         "summary": "Researching novel architectures for foundation models.",
-        "skills": [
-            "Research",
-            "Deep Learning",
-            "Mathematics",
-            "PyTorch"
-        ],
+        "skills": ["Research", "Deep Learning", "Mathematics", "PyTorch"],
         "past_roles": [],
         "certifications": []
     },
@@ -538,12 +398,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "Moderate",
         "summary": "Writing comprehensive documentation for APIs and AI models.",
-        "skills": [
-            "Technical Writing",
-            "Documentation",
-            "Markdown",
-            "API Specs"
-        ],
+        "skills": ["Technical Writing", "Documentation", "Markdown", "API Specs"],
         "past_roles": [],
         "certifications": []
     },
@@ -559,12 +414,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "Moderate",
         "summary": "Assisting with UI components and bug fixes.",
-        "skills": [
-            "HTML",
-            "CSS",
-            "JavaScript",
-            "React"
-        ],
+        "skills": ["HTML", "CSS", "JavaScript", "React"],
         "past_roles": [],
         "certifications": []
     },
@@ -580,12 +430,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "Moderate",
         "summary": "Creating dashboards and analyzing user metrics.",
-        "skills": [
-            "SQL",
-            "Tableau",
-            "Excel",
-            "Data Analysis"
-        ],
+        "skills": ["SQL", "Tableau", "Excel", "Data Analysis"],
         "past_roles": [],
         "certifications": []
     },
@@ -601,12 +446,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "High",
         "summary": "Facilitating agile ceremonies for engineering teams.",
-        "skills": [
-            "Agile",
-            "Scrum",
-            "Jira",
-            "Project Management"
-        ],
+        "skills": ["Agile", "Scrum", "Jira", "Project Management"],
         "past_roles": [],
         "certifications": []
     },
@@ -622,12 +462,7 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "Moderate",
         "summary": "Monitoring systems and handling incidents.",
-        "skills": [
-            "Linux",
-            "Python",
-            "Monitoring",
-            "Incident Response"
-        ],
+        "skills": ["Linux", "Python", "Monitoring", "Incident Response"],
         "past_roles": [],
         "certifications": []
     },
@@ -643,13 +478,15 @@
         "preferred_work_mode": "Remote",
         "current_job_satisfaction": "High",
         "summary": "Researching bias and ethical implications in LLMs.",
-        "skills": [
-            "AI Ethics",
-            "Research",
-            "Policy",
-            "Documentation"
-        ],
+        "skills": ["AI Ethics", "Research", "Policy", "Documentation"],
         "past_roles": [],
         "certifications": []
     }
 ]
+
+file_path = "c:/Users/HP/Desktop/deccan-catalyst-scout/data/candidates.json"
+os.makedirs(os.path.dirname(file_path), exist_ok=True)
+with open(file_path, "w") as f:
+    json.dump(candidates, f, indent=4)
+
+print(f"Successfully generated {len(candidates)} candidates.")
