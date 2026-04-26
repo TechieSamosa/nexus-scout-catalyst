@@ -35,7 +35,7 @@ class BatchOutreach(BaseModel):
 def scout_node(state: GraphState):
     """Evaluates candidates in batches against the JD."""
     # Initialize Llama-3 70B via Groq
-    llm = ChatGroq(model_name="llama3-70b-8192", temperature=0)
+    llm = ChatGroq(model_name="llama-3.3-70b-versatile", temperature=0)
     structured_llm = llm.with_structured_output(BatchEvaluation)
     
     prompt = ChatPromptTemplate.from_messages([
@@ -101,7 +101,7 @@ def scout_node(state: GraphState):
 
 def negotiator_node(state: GraphState):
     """Drafts personalized outreach messages for the top candidates."""
-    llm = ChatGroq(model_name="llama3-70b-8192", temperature=0.7)
+    llm = ChatGroq(model_name="llama-3.3-70b-versatile", temperature=0.7)
     structured_llm = llm.with_structured_output(BatchOutreach)
     
     prompt = ChatPromptTemplate.from_messages([
