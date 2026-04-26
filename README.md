@@ -3,7 +3,7 @@
   <h3>AI-Powered Talent Agent & Multi-Agent Negotiation Pipeline</h3>
   <br />
 
-  **[✨ Launch Live Demo ✨](https://nexus-scout-catalyst.streamlit.app/)** · **[🎥 Watch 4-Min Demo Video](YOUR_YOUTUBE_OR_LOOM_LINK_HERE)**
+  **[✨ Launch Live Demo ✨](https://nexus-scout-catalyst.streamlit.app/)** · **[🎥 Watch 4-Min Demo Video](https://www.loom.com/share/a18e950b80cb4d8a90a1a51a2947b481)**
 
 </div>
 
